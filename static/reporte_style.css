@@ -1,0 +1,500 @@
+.REPORTE-SM {
+    background-color: #e1edd5;
+    display: grid;
+    justify-items: center;
+    align-items: start;
+    width: 100%;
+}
+
+.REPORTE-SM .div {
+    background-color: var(--chinese-white);
+    width: 100%;
+    height:100%;
+    position: relative;
+}
+
+.REPORTE-SM .MARCO-GENERAL {
+    flex-direction: column;
+    width: 100%;
+    gap: 100px;
+    padding-top: 50px;
+    position: absolute;
+    top: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.REPORTE-SM .MARCO-MAIN {
+  width: 1360px;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.REPORTE-SM .div-2 {
+  display: flex;
+  flex-direction: column;
+  width: 670px;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+}
+
+.REPORTE-SM .TITULO-PINCIPAL {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.REPORTE-SM .frame {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.REPORTE-SM .frame-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.REPORTE-SM .text-wrapper {
+  position: relative;
+  align-self: stretch;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-info1-font-family);
+  font-weight: var(--TEXTO-info1-font-weight);
+  color: var(--dark-jungle-green);
+  font-size: var(--TEXTO-info1-font-size);
+  letter-spacing: var(--TEXTO-info1-letter-spacing);
+  line-height: var(--TEXTO-info1-line-height);
+  font-style: var(--TEXTO-info1-font-style);
+}
+
+.REPORTE-SM .p {
+  position: relative;
+  align-self: stretch;
+  font-family: var(--TEXTO-info5-font-family);
+  font-weight: var(--TEXTO-info5-font-weight);
+  color: #000000;
+  font-size: var(--TEXTO-info5-font-size);
+  letter-spacing: var(--TEXTO-info5-letter-spacing);
+  line-height: var(--TEXTO-info5-line-height);
+  font-style: var(--TEXTO-info5-font-style);
+}
+
+.REPORTE-SM .PDF-SCREEN {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  height: 566px;
+  margin-bottom: -40.00px;
+  margin-left: -40.00px;
+  margin-right: -40.00px;
+  object-fit: cover;
+}
+
+.REPORTE-SM .BOTON-OPCIONAL {
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  background-color: var(--alabaster);
+  border-radius: 8px;
+  border: 1px solid;
+  border-color: var(--dolphin-gray);
+}
+
+.REPORTE-SM .TEXT {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-300);
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  margin-top: -5.00px;
+}
+
+.REPORTE-SM .TEXT-HEAD {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.REPORTE-SM .resumen-ejecutivo {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-info4-font-family);
+  font-weight: var(--TEXTO-info4-font-weight);
+  color: var(--dark-jungle-green);
+  font-size: var(--TEXTO-info4-font-size);
+  letter-spacing: var(--TEXTO-info4-letter-spacing);
+  line-height: var(--TEXTO-info4-line-height);
+  white-space: nowrap;
+  font-style: var(--TEXTO-info4-font-style);
+}
+
+.REPORTE-SM .SIEMBRA-PLUS {
+  position: relative;
+  width: 60px;
+  height: 20px;
+  aspect-ratio: 4;
+  background-image: url(./img/sm_plus.svg);
+  background-size: 100% 100%;
+}
+
+.REPORTE-SM .group {
+  position: absolute;
+  width: 44px;
+  height: 7px;
+  top: 3px;
+  left: 5px;
+}
+
+.REPORTE-SM .switch {
+  position: relative;
+  width: 40px;
+  height: 24px;
+  background-color: var(--dark-jungle-green);
+  border-radius: var(--size-radius-full);
+  overflow: hidden;
+  border: 1px solid;
+  border-color: var(--dark-jungle-green);
+}
+
+.REPORTE-SM .knob {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 3px;
+  left: 19px;
+}
+
+.REPORTE-SM .text-wrapper-2 {
+  position: relative;
+  align-self: stretch;
+  margin-bottom: -4.00px;
+  font-family: var(--TEXTO-info5-font-family);
+  font-weight: var(--TEXTO-info5-font-weight);
+  color: var(--dolphin-gray);
+  font-size: var(--TEXTO-info5-font-size);
+  letter-spacing: var(--TEXTO-info5-letter-spacing);
+  line-height: var(--TEXTO-info5-line-height);
+  font-style: var(--TEXTO-info5-font-style);
+}
+
+.REPORTE-SM .group-wrapper {
+  position: relative;
+  width: 55px;
+  height: 15px;
+  aspect-ratio: 3.64;
+  background-image: url(./img/vector-5.svg);
+  background-size: 100% 100%;
+}
+
+.REPORTE-SM .img-wrapper {
+  position: relative;
+  width: 55px;
+  height: 15px;
+  aspect-ratio: 3.64;
+  background-image: url(./img/vector-4.svg);
+  background-size: 100% 100%;
+}
+
+.REPORTE-SM .SIEMBRA-PLUS-2 {
+  position: relative;
+  width: 55px;
+  height: 15px;
+  aspect-ratio: 3.64;
+  background-image: url(./img/vector-2.svg);
+  background-size: 100% 100%;
+}
+
+.REPORTE-SM .SIEMBRA-PLUS-3 {
+  position: relative;
+  width: 55px;
+  height: 15px;
+  aspect-ratio: 3.64;
+  background-image: url(./img/vector-3.svg);
+  background-size: 100% 100%;
+}
+
+.REPORTE-SM .SIEMBRA-PLUS-4 {
+  position: relative;
+  width: 55px;
+  height: 15px;
+  aspect-ratio: 3.64;
+  background-image: url(./img/vector.svg);
+  background-size: 100% 100%;
+}
+
+.REPORTE-SM .text-wrapper-3 {
+  position: relative;
+  flex: 1;
+  font-family: var(--TEXTO-info4-font-family);
+  font-weight: var(--TEXTO-info4-font-weight);
+  color: var(--dark-jungle-green);
+  font-size: var(--TEXTO-info4-font-size);
+  letter-spacing: var(--TEXTO-info4-letter-spacing);
+  line-height: var(--TEXTO-info4-line-height);
+  font-style: var(--TEXTO-info4-font-style);
+}
+
+.REPORTE-SM .BOTONES-GENERALES {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.REPORTE-SM .div-3 {
+  display: flex;
+  width: 325px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--size-space-300) 16px var(--size-space-300) 16px;
+  position: relative;
+  background-color: var(--dark-jungle-green);
+  border-radius: var(--size-radius-200);
+  overflow: hidden;
+  border: 1px solid;
+  border-color: var(--deep-moss-green);
+}
+
+.REPORTE-SM .icon {
+  position: relative;
+  width: 12.75px;
+  height: 12.75px;
+}
+
+.REPORTE-SM .text-wrapper-4 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-info2-font-family);
+  font-weight: var(--TEXTO-info2-font-weight);
+  color: var(--alabaster);
+  font-size: var(--TEXTO-info2-font-size);
+  letter-spacing: var(--TEXTO-info2-letter-spacing);
+  line-height: var(--TEXTO-info2-line-height);
+  white-space: nowrap;
+  font-style: var(--TEXTO-info2-font-style);
+}
+
+.REPORTE-SM .img {
+  position: relative;
+  width: 10.25px;
+  height: 15.25px;
+}
+
+.REPORTE-SM .FOOTER {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 24px 10px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: var(--deep-moss-green);
+}
+
+.REPORTE-SM .text-wrapper-5 {
+  position: relative;
+  align-self: stretch;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-footer2-font-family);
+  font-weight: var(--TEXTO-footer2-font-weight);
+  color: var(--alabaster);
+  font-size: var(--TEXTO-footer2-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-footer2-letter-spacing);
+  line-height: var(--TEXTO-footer2-line-height);
+  font-style: var(--TEXTO-footer2-font-style);
+}
+
+.REPORTE-SM .text-wrapper-6 {
+  position: relative;
+  align-self: stretch;
+  height: 20px;
+  font-family: var(--TEXTO-FOOTER-font-family);
+  font-weight: var(--TEXTO-FOOTER-font-weight);
+  color: var(--alabaster);
+  font-size: var(--TEXTO-FOOTER-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-FOOTER-letter-spacing);
+  line-height: var(--TEXTO-FOOTER-line-height);
+  font-style: var(--TEXTO-FOOTER-font-style);
+}
+
+.REPORTE-SM .HEADER {
+  display: flex;
+  width: 100%; 
+  height: 80px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 5%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #32523a;
+  border-top-style: none;
+  border-right-style: none;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-left-style: none;
+  border-color: #d9d9d9;
+}
+
+.REPORTE-SM .LOGO {
+  position: relative;
+  width: 166px;
+}
+
+.REPORTE-SM .NAV {
+  display: flex;
+  width: 963px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--size-space-100);
+  position: relative;
+}
+
+.REPORTE-SM .title-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-space-200);
+  padding: var(--size-space-200);
+  position: relative;
+  flex: 0 0 auto;
+  border-radius: var(--size-radius-200);
+}
+
+.REPORTE-SM .title {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-HEAD-font-family);
+  font-weight: var(--TEXTO-HEAD-font-weight);
+  color: #e1edd5;
+  font-size: var(--TEXTO-HEAD-font-size);
+  letter-spacing: var(--TEXTO-HEAD-letter-spacing);
+  line-height: var(--TEXTO-HEAD-line-height);
+  white-space: nowrap;
+  font-style: var(--TEXTO-HEAD-font-style);
+}
+/* Original CSS code should be injected here */
+
+/* Additional styles for semantic HTML improvements */
+.switch-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  border-radius: var(--size-radius-full);
+  transition: background-color 0.3s ease;
+}
+
+.switch:focus-within {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+.div-3 {
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.div-3:hover {
+  background-color: var(--apple);
+  transform: translateY(-1px);
+}
+
+.div-3:active {
+  transform: translateY(0);
+}
+
+.div-3:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+.title {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.title:hover {
+  color: var(--chinese-white);
+}
+
+.title:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.title[aria-current="page"] {
+  font-weight: 900;
+  color: var(--chinese-white);
+}
+
+ .ICON-SIEMBRABOT {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  padding: 10px;
+
+
+  position: fixed;
+  right: max(25px, env(safe-area-inset-right));   /* margen seguro (iOS) */
+  bottom: max(25px, env(safe-area-inset-bottom)); /* margen seguro (iOS) */
+
+
+  background-color: var(--dark-jungle-green);
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  z-index: 999; /* opcional: por encima de otros elementos */
+}
+
+.ICON-SIEMBRABOT:hover {
+  background-color: var(--deep-moss-green);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* sombra elegante */
+}

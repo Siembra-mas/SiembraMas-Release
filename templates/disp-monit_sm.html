@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>SiembraLink - Recomendaciones Agrícolas</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="styleguide.css" />
+    <link rel="stylesheet" href="disp-monit_style.css" />
+  </head>
+  <body>
+    <div class="DISPOSITIVO-DE">
+      <div class="div">
+        <header class="HEADER">
+          <img class="LOGO" src="img/LOGO.svg" alt="Logo de Siembra+" />
+          <nav class="NAV" role="navigation" aria-label="Navegación principal">
+            <a href="inicio_sm.html" class="title-wrapper"><span class="title">Inicio</span></a>
+            <a href="reporte_sm.html" class="title-wrapper"><span class="title">Reporte</span></a>
+            <a href="disp-monit_sm.html" class="title-wrapper"><span class="title">Dispositivo de monitoreo</span></a>
+            <a href="about_sm.html" class="title-wrapper"><span class="title">Sobre nosotros</span></a>
+          </nav>
+        </header>
+
+        <main class="MARCO-GENERAL">
+          <section class="MARCO-MAIN">
+            <div class="MARCO-MAIN-l">
+              <div class="TITULO-PINCIPAL">
+                <img class="PERFIL" src="img/ICON-03.svg" alt="Perfil de usuario" />
+                <div class="TEXT">
+                  <h1 class="text-wrapper">Recomendaciones SiembraLink</h1>
+                  <p class="tu-zona-geogr-fica">Tu zona geográfica<br />18° 51&#39; 33&#34; N 97° 05&#39; 17&#34; O</p>
+                </div>
+              </div>
+
+              <div class="BOTONES">
+                <div class="div-2">
+                  <div class="div-3">
+                    <select class="text-wrapper-2" aria-label="Seleccionar estado">
+                      <option value="">Seleccione un estado</option>
+                    </select>
+                    <div class="chevron-down"><img class="icon" src="img/icon-5.svg" alt="" /></div>
+                  </div>
+                  <div class="div-3">
+                    <select class="text-wrapper-2" aria-label="Elegir municipio">
+                      <option value="">Elegir municipio</option>
+                    </select>
+                    <div class="chevron-down"><img class="icon" src="img/icon-3.svg" alt="" /></div>
+                  </div>
+                  <button class="UBICARME" type="button" aria-label="Ubicar mi posición">
+                    <img class="img" src="img/icon-4.svg" alt="" />
+                    <span class="text-wrapper-3">Ubicarme</span>
+                  </button>
+                </div>
+
+                <div class="div-2">
+                  <button class="div-4" type="button" aria-label="Comenzar lectura de datos">
+                    <img class="icon-2" src="img/icon-2.svg" alt="" />
+                    <span class="text-wrapper-4">Comenzar lectura</span>
+                  </button>
+                  <button class="div-4" type="button" aria-label="Programar lectura automática">
+                    <img class="icon-3" src="img/icon.svg" alt="" />
+                    <span class="text-wrapper-4">Programar lectura</span>
+                  </button>
+                </div>
+              </div>
+
+              <iframe
+                class="MAP"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12037.618434200173!2d-99.133208!3d19.432607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f92a6b8b6cdd%3A0x5405c89bdbf2fbb1!2sCentro%20Hist%C3%B3rico%20de%20la%20Ciudad%20de%20M%C3%A9xico!5e0!3m2!1ses!2smx!4v1694012345678!5m2!1ses!2smx"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                aria-label="Mapa interactivo de la región seleccionada">
+              </iframe>
+            </div>
+
+            <aside class="MARCO-MAIN-r">
+              <div class="MARCO-MAIN-r-2">
+                <time class="text-wrapper-5" datetime="08:51:00">08:51:00</time>
+                <div class="text-wrapper-6">Monitoreo tiempo real</div>
+              </div>
+
+              <div class="MARCO-MAIN-r-3">
+                <div class="div-2">
+                  <div class="div-5">
+                    <div class="clock" aria-label="Indicador de humedad relativa">
+                      <div class="div-6">
+                        <div class="overlap"><img class="ICON-HUMED" src="img/ICON_HUMED.svg" alt="" /></div>
+                      </div>
+                    </div>
+                    <div class="div-7">
+                      <div class="div-wrapper"><div class="text-wrapper-7">50%</div></div>
+                      <div class="div-wrapper"><div class="text-wrapper-8">Humedad relativa</div></div>
+                    </div>
+                  </div>
+
+                  <div class="div-5">
+                    <div class="clock-2" aria-label="Indicador de temperatura máxima">
+                      <img class="ICON-TEMMAX" src="img/ICON_TEMMAX.SVG" alt="" />
+                    </div>
+                    <div class="div-7">
+                      <div class="div-wrapper"><div class="text-wrapper-7">37°C</div></div>
+                      <div class="div-wrapper"><div class="text-wrapper-8">Temperatura máxima</div></div>
+                    </div>
+                  </div>
+
+                  <div class="div-5">
+                    <div class="capa-wrapper" aria-label="Indicador de viento óptimo">
+                      <img class="ICON-TEMMAX" src="img/ICON_VIENOPT.SVG" alt="" />
+                    </div>
+                    <div class="div-7">
+                      <div class="div-wrapper"><div class="text-wrapper-7">90</div></div>
+                      <div class="div-wrapper"><div class="text-wrapper-8">Viento optimo</div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="div-2">
+                  <div class="INFO-PRECIPITACION">
+                    <div class="clock-2" aria-label="Indicador de precipitación">
+                      <div class="ICON-LLUVIA">
+                        <div class="overlap-group-3">
+                            <img class="ICON-TEMMAX" src="img/ICON_LLUVIA.svg" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="div-7">
+                      <div class="div-wrapper"><div class="text-wrapper-7">17 mm</div></div>
+                      <div class="div-wrapper"><div class="text-wrapper-8">Precipitación</div></div>
+                    </div>
+                  </div>
+
+                  <div class="div-5">
+                    <img class="clock-2" src="img/ICON_HUMSUEL.svg" alt="Indicador de humedad del suelo" />
+                    <div class="div-7">
+                      <div class="div-wrapper"><div class="text-wrapper-7">29%</div></div>
+                      <div class="div-wrapper"><div class="text-wrapper-8">Humedad suelo bajo</div></div>
+                    </div>
+                  </div>
+
+                  <div class="div-5">
+                    <div class="capa-wrapper" aria-label="Indicador de huracanes"><div class="capa"></div>
+                      <img class="ICON-TEMMAX" src="img/ICON_HURACANES.SVG" alt="" />
+                  </div>
+                    <div class="div-7">
+                      <div class="div-wrapper"><div class="text-wrapper-7">0%</div></div>
+                      <div class="div-wrapper"><div class="text-wrapper-8">Huracanes</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="TABLA-wrapper">
+                <div class="TABLA" role="table" aria-label="Historial de datos">
+                  <div class="row" role="row">
+                    <div class="frame" role="columnheader">
+                      <div class="content-wrapper"><div class="content"><div class="text">Fecha y hora</div></div></div>
+                    </div>
+                    <div class="content-wrapper-2" role="columnheader">
+                      <div class="content"><div class="text">Datos</div></div>
+                    </div>
+                  </div>
+
+                  <div class="row" role="row">
+                    <div class="frame" role="cell">
+                      <div class="content-wrapper"><div class="content"><div class="text-2">21/08/25 | 05:30</div></div></div>
+                    </div>
+                    <div class="content-wrapper-2" role="cell">
+                      <div class="content-2">
+                        <button class="frame-2" type="button" aria-label="Descargar CSV"><div class="text-wrapper-9">CSV</div></button>
+                        <button class="frame-2" type="button" aria-label="Ver reporte"><div class="text-wrapper-9">Reporte</div></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" role="row">
+                    <div class="frame" role="cell">
+                      <div class="content-wrapper"><div class="content"><div class="text-2">21/08/25 | 09:30</div></div></div>
+                    </div>
+                    <div class="cell" role="cell">
+                      <div class="content-2">
+                        <button class="frame-2" type="button" aria-label="Descargar CSV"><div class="text-wrapper-9">CSV</div></button>
+                        <button class="frame-2" type="button" aria-label="Ver reporte"><div class="text-wrapper-9">Reporte</div></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" role="row">
+                    <div class="frame" role="cell">
+                      <div class="content-wrapper"><div class="content"><div class="text-2">21/08/25 | 10:00</div></div></div>
+                    </div>
+                    <div class="content-wrapper-2" role="cell">
+                      <div class="content-2">
+                        <button class="frame-2" type="button" aria-label="Descargar CSV"><div class="text-wrapper-9">CSV</div></button>
+                        <button class="frame-2" type="button" aria-label="Ver reporte"><div class="text-wrapper-9">Reporte</div></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </section>
+
+          <section class="INFO-MID">
+            <img class="ILLU" src="img/ILLU.svg" alt="Ilustración de agricultura inteligente" />
+            <div class="TEXT-2">
+              <h2 class="text-wrapper-10">Siembra +</h2>
+              <p class="siembra-es-una">
+                Siembra+ es una plataforma inteligente que combina datos climáticos, edafológicos y modelos predictivos para apoyar a los productores en la toma de decisiones agrícolas.
+                Su objetivo es indicar el mejor momento para sembrar y cosechar, considerando factores como lluvia, temperatura, humedad y tipo de suelo.
+                <br /><br />
+                Queremos dar recomendaciones de siembra porque ayudan a mejorar el rendimiento de los cultivos, reducir riesgos por cambios climáticos, optimizar recursos y garantizar una producción más sostenible y rentable para los agricultores.
+              </p>
+            </div>
+          </section>
+
+          <section class="RECOMENDACION">
+            <div class="TEXT-3">
+              <h2 class="text-wrapper">Resultados del análisis</h2>
+              <p class="p">
+                De acuerdo con los datos de tu zona como la temperatura, el clima y la humedad, he preparado una lista de cultivos que se adaptan mejor a tus condiciones.
+                En cada uno verás el porcentaje de garantía y qué tan efectiva sería su siembra, para que tengas una idea clara de cuáles son más recomendables.
+                Así podrás tomar decisiones con mayor confianza, aprovechar mejor tus recursos y aumentar las probabilidades de obtener una cosecha exitosa.
+              </p>
+            </div>
+
+            <div class="RECOM">
+              <details class="div-8" open>
+                <summary class="frame-3">
+                  <img class="mask-group" src="img/mask-group-2.png" alt="Aguacate" />
+                  <div class="accordion-title">
+                    <h3 class="text-wrapper-11">Aguacate</h3>
+                    <img class="chevron-up" src="img/chevron-up-2.svg" alt="" />
+                  </div>
+                </summary>
+                <div class="accordion-content">
+                  <p class="body">
+                    La efectividad estimada para sembrar aguacate en tu zona es del 80%. De acuerdo con los datos de temperatura, precipitación y humedad,
+                    se recomienda una temperatura media de 20–25°C, máxima hasta 30°C, mínima no menor a 5°C, precipitación anual de 1000–2000 mm y humedad entre 60–80%.
+                  </p>
+                </div>
+              </details>
+
+              <details class="div-8">
+                <summary class="accordion-title-wrapper">
+                  <img class="mask-group-2" src="img/image.png" alt="Avena grano" />
+                  <div class="accordion-title-2">
+                    <h3 class="text-wrapper-12">Avena grano</h3>
+                    <img class="chevron-up" src="img/chevron-up.svg" alt="" />
+                  </div>
+                </summary>
+              </details>
+
+              <details class="div-8">
+                <summary class="accordion-title-wrapper">
+                  <img class="mask-group-2" src="img/mask-group-3.png" alt="Brócoli" />
+                  <div class="accordion-title-2">
+                    <h3 class="text-wrapper-12">Brócoli</h3>
+                    <img class="chevron-up" src="img/chevron-up.svg" alt="" />
+                  </div>
+                </summary>
+              </details>
+
+              <details class="div-8">
+                <summary class="accordion-title-wrapper">
+                  <img class="mask-group-2" src="img/mask-group.png" alt="Café cereza" />
+                  <div class="accordion-title-2">
+                    <h3 class="text-wrapper-12">Café cereza</h3>
+                    <img class="chevron-up" src="img/chevron-up.svg" alt="" />
+                  </div>
+                </summary>
+              </details>
+
+              <details class="div-8">
+                <summary class="accordion-title-wrapper">
+                  <img class="mask-group-2" src="img/mask-group-4.png" alt="Caña de azúcar" />
+                  <div class="accordion-title-2">
+                    <h3 class="text-wrapper-12">Caña de azúcar</h3>
+                    <img class="chevron-up" src="img/chevron-up.svg" alt="" />
+                  </div>
+                </summary>
+              </details>
+            </div>
+          </section>
+
+          <footer class="FOOTER">
+            <p class="text-wrapper-13">© 2025 Siembra+. Todos los derechos reservados.</p>
+            <p class="text-wrapper-14">
+              Siembra+ te ayuda a tomar decisiones inteligentes para tu cultivo, ofreciendo recomendaciones basadas en temperatura, humedad y precipitación de tu zona.
+            </p>
+          </footer>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,413 @@
+.SOBRE-NOSOTROS-SM {
+  background-color: #e1edd5;
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  width: 100vw;
+}
+
+.SOBRE-NOSOTROS-SM .div {
+  background-color: var(--chinese-white);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.SOBRE-NOSOTROS-SM .MARCO-PRINCIPAL {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 50px;
+  gap: 50px;
+  position: absolute;
+  top: 80px;
+}
+
+.SOBRE-NOSOTROS-SM .MARCO-INFO {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding: 50px 0px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.SOBRE-NOSOTROS-SM .ILLUSTRACION {
+  position: relative;
+  width: 511px;
+  height: 500px;
+  aspect-ratio: 1.02;
+}
+
+.SOBRE-NOSOTROS-SM .TEXTO {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.SOBRE-NOSOTROS-SM .text-wrapper {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-info1-font-family);
+  font-weight: var(--TEXTO-info1-font-weight);
+  color: var(--dark-jungle-green);
+  font-size: var(--TEXTO-info1-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-info1-letter-spacing);
+  line-height: var(--TEXTO-info1-line-height);
+  white-space: nowrap;
+  font-style: var(--TEXTO-info1-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .p {
+  position: relative;
+  width: 400px;
+  font-family: var(--TEXTO-info2-font-family);
+  font-weight: var(--TEXTO-info2-font-weight);
+  color: var(--deep-moss-green);
+  font-size: var(--TEXTO-info2-font-size);
+  letter-spacing: var(--TEXTO-info2-letter-spacing);
+  line-height: var(--TEXTO-info2-line-height);
+  font-style: var(--TEXTO-info2-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .ODS {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 0px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.SOBRE-NOSOTROS-SM .s-SDG-goals-icons {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.SOBRE-NOSOTROS-SM .div-wrapper {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  align-self: stretch;
+  width: auto;
+  background-color: var(--deep-moss-green);
+}
+
+.SOBRE-NOSOTROS-SM .text-wrapper-2 {
+  position: relative;
+  flex: 1;
+  font-family: var(--TEXTO-info1-font-family);
+  font-weight: var(--TEXTO-info1-font-weight);
+  color: var(--alabaster);
+  font-size: var(--TEXTO-info1-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-info1-letter-spacing);
+  line-height: var(--TEXTO-info1-line-height);
+  font-style: var(--TEXTO-info1-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .div-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding: 20px 0px;
+  position: relative;
+  align-self: stretch;
+  width: var(--responsive-device-width);
+  flex: 0 0 auto;
+}
+
+.SOBRE-NOSOTROS-SM .PARTICIPANTE {
+  display: inline-flex;
+  flex-direction: column;
+  height: 373px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.SOBRE-NOSOTROS-SM .image {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 200px;
+  align-items: center;
+  position: relative;
+  border-radius: 200px;
+  overflow: hidden;
+  background: linear-gradient(
+    0deg,
+    rgba(227, 227, 227, 1) 0%,
+    rgba(227, 227, 227, 1) 100%
+  );
+}
+
+.SOBRE-NOSOTROS-SM .imagen-de-whatsapp {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.SOBRE-NOSOTROS-SM .text-content-heading {
+  display: flex;
+  flex-direction: column;
+  width: 231px;
+  height: 148px;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.SOBRE-NOSOTROS-SM .text-wrapper-3 {
+  position: relative;
+  align-self: stretch;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-info1-font-family);
+  font-weight: var(--TEXTO-info1-font-weight);
+  color: var(--dark-jungle-green);
+  font-size: var(--TEXTO-info1-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-info1-letter-spacing);
+  line-height: var(--TEXTO-info1-line-height);
+  font-style: var(--TEXTO-info1-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .line {
+  position: relative;
+  width: 200px;
+  height: 1px;
+  object-fit: cover;
+}
+
+.SOBRE-NOSOTROS-SM .subheading {
+  position: relative;
+  width: 230px;
+  font-family: var(--TEXTO-info2-font-family);
+  font-weight: var(--TEXTO-info2-font-weight);
+  color: var(--deep-moss-green);
+  font-size: var(--TEXTO-info2-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-info2-letter-spacing);
+  line-height: var(--TEXTO-info2-line-height);
+  font-style: var(--TEXTO-info2-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .subheading-2 {
+  position: relative;
+  width: 226px;
+  font-family: var(--TEXTO-info2-font-family);
+  font-weight: var(--TEXTO-info2-font-weight);
+  color: var(--deep-moss-green);
+  font-size: var(--TEXTO-info2-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-info2-letter-spacing);
+  line-height: var(--TEXTO-info2-line-height);
+  font-style: var(--TEXTO-info2-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .image-2 {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 200px;
+  background: linear-gradient(
+    0deg,
+    rgba(227, 227, 227, 1) 0%,
+    rgba(227, 227, 227, 1) 100%
+  );
+}
+
+.SOBRE-NOSOTROS-SM .armando-mencias {
+  position: relative;
+  width: 250px;
+  margin-top: -1.00px;
+  margin-left: -9.50px;
+  margin-right: -9.50px;
+  font-family: var(--TEXTO-info1-font-family);
+  font-weight: var(--TEXTO-info1-font-weight);
+  color: var(--dark-jungle-green);
+  font-size: var(--TEXTO-info1-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-info1-letter-spacing);
+  line-height: var(--TEXTO-info1-line-height);
+  font-style: var(--TEXTO-info1-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .ASESOR {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.SOBRE-NOSOTROS-SM .text-content-heading-2 {
+  display: flex;
+  flex-direction: column;
+  width: 231px;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.SOBRE-NOSOTROS-SM .jes-s-leonardo-l-pez {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  margin-left: -0.50px;
+  margin-right: -0.50px;
+  font-family: var(--TEXTO-info1-font-family);
+  font-weight: var(--TEXTO-info1-font-weight);
+  color: var(--dark-jungle-green);
+  font-size: var(--TEXTO-info1-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-info1-letter-spacing);
+  line-height: var(--TEXTO-info1-line-height);
+  font-style: var(--TEXTO-info1-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .ASESOR-2 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.SOBRE-NOSOTROS-SM .FOOTER {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  padding: 24px 10px;
+  background-color: var(--deep-moss-green);
+  bottom: 0;
+}
+
+.SOBRE-NOSOTROS-SM .text-wrapper-4 {
+  position: relative;
+  align-self: stretch;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-footer2-font-family);
+  font-weight: var(--TEXTO-footer2-font-weight);
+  color: var(--alabaster);
+  font-size: var(--TEXTO-footer2-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-footer2-letter-spacing);
+  line-height: var(--TEXTO-footer2-line-height);
+  font-style: var(--TEXTO-footer2-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .text-wrapper-5 {
+  position: relative;
+  align-self: stretch;
+  height: 20px;
+  font-family: var(--TEXTO-FOOTER-font-family);
+  font-weight: var(--TEXTO-FOOTER-font-weight);
+  color: var(--alabaster);
+  font-size: var(--TEXTO-FOOTER-font-size);
+  text-align: center;
+  letter-spacing: var(--TEXTO-FOOTER-letter-spacing);
+  line-height: var(--TEXTO-FOOTER-line-height);
+  font-style: var(--TEXTO-FOOTER-font-style);
+}
+
+.SOBRE-NOSOTROS-SM .HEADER {
+  display: flex;
+  width: 100%;
+  height: 80px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 5%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #32523a;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.SOBRE-NOSOTROS-SM .LOGO {
+  position: relative;
+  width: 166px;
+}
+
+.SOBRE-NOSOTROS-SM .NAV {
+  display: flex;
+  width: 963px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--size-space-100);
+  position: relative;
+}
+
+.SOBRE-NOSOTROS-SM .title-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-space-200);
+  padding: var(--size-space-200);
+  position: relative;
+  flex: 0 0 auto;
+  border-radius: var(--size-radius-200);
+}
+
+.SOBRE-NOSOTROS-SM .title {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--TEXTO-HEAD-font-family);
+  font-weight: var(--TEXTO-HEAD-font-weight);
+  color: #e1edd5;
+  font-size: var(--TEXTO-HEAD-font-size);
+  letter-spacing: var(--TEXTO-HEAD-letter-spacing);
+  line-height: var(--TEXTO-HEAD-line-height);
+  white-space: nowrap;
+  font-style: var(--TEXTO-HEAD-font-style);
+}
+/* Original CSS code should be injected here */
+
+/* Enhanced accessibility and semantic improvements */
+.SOBRE-NOSOTROS-SM .title {
+  color: #e1edd5;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.SOBRE-NOSOTROS-SM .title:hover,
+.SOBRE-NOSOTROS-SM .title:focus {
+  color: var(--alabaster);
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+.SOBRE-NOSOTROS-SM .title[aria-current="page"] {
+  color: var(--alabaster);
+  font-weight: 900;
+}
+
+/* Improved focus states for better accessibility */
+.SOBRE-NOSOTROS-SM .LOGO:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}

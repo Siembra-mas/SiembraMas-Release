@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Siembra+</title>
+  <meta name="description" content="Plataforma inteligente que combina datos climáticos para apoyar a los productores en la toma de decisiones agrícolas." />
+
+  <!-- CSS desde /static -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='globals.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styleguide.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='inicio_style.css') }}" />
+</head>
+
+<body>
+  <div class="INICIO-SM">
+    <div class="div">
+      <div class="overlap">
+        <main class="MARCO-PRINCIPAL">
+          <section class="MARCO-MAIN">
+            <div class="MAIN-l">
+              <div class="MAIN-l-2">
+                <img class="ICON" src="{{ url_for('static', filename='img/ICON-01.svg') }}" alt="Icono de recomendaciones de siembra" />
+                <div class="TEXT">
+                  <h1 class="text-wrapper">Recomendaciones de siembra</h1>
+                  <p class="p">
+                    Por favor, seleccione su estado o municipio y luego haga clic en Generar, o elija la opción Ubicarme
+                    para detectar su ubicación automáticamente y así poder brindarle la recomendación más adecuada.
+                  </p>
+                </div>
+              </div>
+
+              <!-- FORMULARIO (Flask) -->
+              <form class="div-2" role="form" aria-label="Formulario de selección de ubicación" method="POST" action="{{ url_for('generar') }}">
+                <div class="div-3">
+                  <!-- RUTA: Estados / Municipios -->
+                  <div class="BOTON-SELECCION" style="width:auto;">
+                    <label class="text-wrapper-2" style="margin-right:10px;">Ruta de Datos</label>
+                    <label><input type="radio" name="ruta" value="Estados" {% if ruta_sel=='Estados' %}checked{% endif %}> Estados</label>
+                    <label style="margin-left:10px;"><input type="radio" name="ruta" value="Municipios" {% if ruta_sel=='Municipios' %}checked{% endif %}> Municipios</label>
+                  </div>
+
+                  <!-- ESTADO -->
+                  <div class="BOTON-SELECCION" style="width:260px;">
+                    <select name="estado" id="estado" aria-label="Seleccione un estado" style="width:100%;background:transparent;border:none;outline:none;">
+                      <option value="">Seleccione un estado</option>
+                      {% for e in estados %}
+                        <option value="{{ e }}" {% if estado_sel==e %}selected{% endif %}>{{ e }}</option>
+                      {% endfor %}
+                    </select>
+                    <div class="chevron-down" aria-hidden="true">
+                      <img class="icon" src="{{ url_for('static', filename='img/icon-2.svg') }}" alt="" />
+                    </div>
+                  </div>
+
+                  <!-- MUNICIPIO -->
+                  <div class="BOTON-SELECCION" style="width:260px;">
+                    <select name="municipio" id="municipio" aria-label="Elegir municipio" style="width:100%;background:transparent;border:none;outline:none;">
+                      <option value="">Elegir municipio</option>
+                      {% for m in municipios %}
+                        <option value="{{ m }}" {% if municipio_sel==m %}selected{% endif %}>{{ m }}</option>
+                      {% endfor %}
+                    </select>
+                    <div class="chevron-down" aria-hidden="true">
+                      <img class="icon" src="{{ url_for('static', filename='img/icon-3.svg') }}" alt="" />
+                    </div>
+                  </div>
+
+                  <!-- UBICARME -->
+                  <button type="button" id="btn-ubicarme" class="BOTON-UBICARME" aria-label="Detectar ubicación automáticamente">
+                    <img class="img" src="{{ url_for('static', filename='img/icon-ubicarme.svg') }}" alt="" aria-hidden="true" />
+                    <span class="text-wrapper-3">Ubicarme</span>
+                  </button>
+                </div>
+
+                <!-- MES / AÑO -->
+                <div class="div-3">
+                  <div class="BOTON-SELECCION" style="width:210px;">
+                    <select name="mes" id="mes" aria-label="Selecciona un mes" style="width:100%;background:transparent;border:none;outline:none;">
+                      {% for m in meses %}
+                        <option value="{{ m }}" {% if mes_sel==m %}selected{% endif %}>{{ m }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="BOTON-SELECCION" style="width:210px;">
+                    <select name="anio" id="anio" aria-label="Selecciona un año" style="width:100%;background:transparent;border:none;outline:none;">
+                      {% for a in anios %}
+                        <option value="{{ a }}" {% if anio_sel==a %}selected{% endif %}>{{ a }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <!-- GENERAR -->
+                <button type="submit" class="div-4" aria-label="Generar recomendaciones de siembra">
+                  <img class="icon-2" src="{{ url_for('static', filename='img/icon-generar.svg') }}" alt="" aria-hidden="true" />
+                  <span class="text-wrapper-4">Generar</span>
+                </button>
+              </form>
+
+              <!-- TARJETAS DE RESULTADO CLIMÁTICO -->
+              <section class="div-2" aria-label="Información climática (predicción)">
+                <div class="div-3">
+                  <div class="INFO-PRECIPITACION">
+                    <div class="ICON-2" aria-hidden="true">
+                      <img class="ICON-LLUVIA" src="{{ url_for('static', filename='img/ICON_LLUVIA.svg') }}" alt="" />
+                    </div>
+                    <div class="TEXT-2">
+                      <div class="div-wrapper"><span class="text-wrapper-5">{{ precipitacion if precipitacion is not none else "—" }}{% if precipitacion is not none %} mm{% endif %}</span></div>
+                      <div class="div-wrapper"><span class="text-wrapper-6">Precipitación</span></div>
+                    </div>
+                  </div>
+
+                  <div class="INFO-HUMEDAD">
+                    <div class="ICON-2" aria-hidden="true">
+                      <img class="ICON-HUMED" src="{{ url_for('static', filename='img/ICON_HUMED.svg') }}" alt="" />
+                    </div>
+                    <div class="TEXT-2">
+                      <div class="div-wrapper"><span class="text-wrapper-5">{{ humedad if humedad is not none else "—" }}{% if humedad is not none %} %{% endif %}</span></div>
+                      <div class="div-wrapper"><span class="text-wrapper-6">Humedad relativa</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="div-3">
+                  <div class="div-5">
+                    <div class="ICON-2" aria-hidden="true">
+                      <img class="ICON-TEMMAX" src="{{ url_for('static', filename='img/ICON_TEMMAX.svg') }}" alt="" />
+                    </div>
+                    <div class="TEXT-2">
+                      <div class="div-wrapper"><span class="text-wrapper-5">{{ temp_max if temp_max is not none else "—" }}{% if temp_max is not none %} °C{% endif %}</span></div>
+                      <div class="div-wrapper"><span class="text-wrapper-6">Temperatura máxima</span></div>
+                    </div>
+                  </div>
+
+                  <div class="div-5">
+                    <div class="ICON-2" aria-hidden="true">
+                      <img class="ICON-TEMPROM" src="{{ url_for('static', filename='img/ICON_TEMPROM.svg') }}" alt="" />
+                    </div>
+                    <div class="TEXT-2">
+                      <div class="div-wrapper"><span class="text-wrapper-5">{{ temp_media if temp_media is not none else "—" }}{% if temp_media is not none %} °C{% endif %}</span></div>
+                      <div class="div-wrapper"><span class="text-wrapper-6">Temperatura media</span></div>
+                    </div>
+                  </div>
+
+                  <div class="div-5">
+                    <div class="ICON-2" aria-hidden="true">
+                      <img class="ICON-TEMMIN" src="{{ url_for('static', filename='img/ICON_TEMMIN.svg') }}" alt="" />
+                    </div>
+                    <div class="TEXT-2">
+                      <div class="div-wrapper"><span class="text-wrapper-5">{{ temp_min if temp_min is not none else "—" }}{% if temp_min is not none %} °C{% endif %}</span></div>
+                      <div class="div-wrapper"><span class="text-wrapper-6">Temperatura mínima</span></div>
+                    </div>
+                  </div>
+                </div>
+                {% if nombre_mes %}
+                  <div class="div-3" style="justify-content:center;">
+                    <div class="text-wrapper-6">Mes: {{ nombre_mes }} · Año: {{ anio_sel }}</div>
+                  </div>
+                {% endif %}
+              </section>
+            </div>
+
+            <aside class="MAIN-r">
+              <div class="MARCO-MAIN-r-2">
+                <time class="text-wrapper-5" datetime="08:51:00">08:51:00</time>
+                <div class="text-wrapper-6">Monitoreo tiempo real</div>
+              </div>
+
+              <iframe
+                class="MAP"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12037.618434200173!2d-99.133208!3d19.432607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f92a6b8b6cdd%3A0x5405c89bdbf2fbb1!2sCentro%20Hist%C3%B3rico%20de%20la%20Ciudad%20de%20M%C3%A9xico!5e0!3m2!1ses!2smx!4v1694012345678!5m2!1ses!2smx"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                aria-label="Mapa interactivo de la región seleccionada">
+              </iframe>
+            </aside>
+          </section>
+
+          <section class="INFO-MID">
+            <img class="ILLU" src="{{ url_for('static', filename='img/ILLU.svg') }}" alt="Ilustración de Siembra+" />
+            <div class="TEXT-3">
+              <h2 class="text-wrapper-7">Siembra +</h2>
+              <p class="siembra-es-una">
+                Siembra+ es una plataforma inteligente que combina datos climáticos, edafológicos y modelos predictivos
+                para apoyar a los productores en la toma de decisiones agrícolas. Su objetivo es indicar el mejor momento
+                para sembrar y cosechar, considerando factores como lluvia, temperatura, humedad y tipo de suelo.
+                <br /><br />
+                Queremos dar recomendaciones de siembra porque ayudan a mejorar el rendimiento de los cultivos, reducir
+                riesgos por cambios climáticos, optimizar recursos y garantizar una producción más sostenible y rentable
+                para los agricultores.
+              </p>
+            </div>
+          </section>
+
+          <!-- RECOMENDACIONES (dinámico) -->
+          <section class="RECOMENDACION" id="recom-section">
+            <div class="TEXT-4">
+              <h2 class="text-wrapper">Resultados del análisis</h2>
+              <p class="p">
+                De acuerdo con los datos de tu zona como la temperatura, el clima y la humedad, he preparado una lista
+                de cultivos que se adaptan mejor a tus condiciones. En cada uno verás el porcentaje de garantía y qué tan
+                efectiva sería su siembra.
+              </p>
+            </div>
+
+            <div class="RECOM" role="list">
+              {% if recomendaciones and recomendaciones|length > 0 %}
+                {% for rec in recomendaciones %}
+                <details class="div-6" {% if loop.first %}open{% endif %}>
+                  <summary class="accordion-summary">
+                    <img class="mask-group" src="{{ url_for('static', filename='img/cultivos/' + rec.img_slug + '.png') }}"
+                         alt="Imagen de {{ rec.cultivo }}" />
+                    <div class="frame">
+                      <div class="accordion-title">
+                        <h3 class="text-wrapper-8">{{ rec.cultivo }}</h3>
+                        <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up-2.svg') }}" alt="" aria-hidden="true" />
+                      </div>
+                    </div>
+                  </summary>
+                  <div class="accordion-content">
+                    <p class="body">{{ rec.texto }}</p>
+                  </div>
+                </details>
+                {% endfor %}
+              {% else %}
+                <!-- Tarjeta ejemplo (se muestra cuando aún no hay resultados) -->
+                <details class="div-6" open>
+                  <summary class="accordion-summary">
+                    <img class="mask-group" src="{{ url_for('static', filename='img/mask-group-4.png') }}" alt="Imagen de cultivo ejemplo" />
+                    <div class="frame">
+                      <div class="accordion-title">
+                        <h3 class="text-wrapper-8">Aguacate</h3>
+                        <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up-2.svg') }}" alt="" aria-hidden="true" />
+                      </div>
+                    </div>
+                  </summary>
+                  <div class="accordion-content">
+                    <p class="body">
+                      Aquí aparecerán los cultivos recomendados cuando presiones "Generar".
+                    </p>
+                  </div>
+                </details>
+              {% endif %}
+            </div>
+          </section>
+
+          <footer class="FOOTER">
+            <p class="text-wrapper-10">© 2025 Siembra+. Todos los derechos reservados.</p>
+            <p class="text-wrapper-11">
+              Siembra+ te ayuda a tomar decisiones inteligentes para tu cultivo, ofreciendo recomendaciones basadas en
+              temperatura, humedad y precipitación de tu zona.
+            </p>
+          </footer>
+        </main>
+
+        <header class="HEADER">
+          <img class="LOGO" src="{{ url_for('static', filename='img/LOGO.svg') }}" alt="Logo de Siembra+" />
+          <nav class="NAV" role="navigation" aria-label="Navegación principal">
+            <a href="{{ url_for('home') }}" class="title-wrapper"><span class="title">Inicio</span></a>
+            <a href="#" class="title-wrapper"><span class="title">Reporte</span></a>
+            <a href="#" class="title-wrapper"><span class="title">Dispositivo de monitoreo</span></a>
+            <a href="#" class="title-wrapper"><span class="title">Sobre nosotros</span></a>
+          </nav>
+        </header>
+      </div>
+
+      <button type="button" class="ICON-SIEMBRABOT" aria-label="Activar SiembraBot - Asistente de voz">
+        <div class="frame-2">
+          <span class="text-wrapper-12">SiembraBot</span>
+          <p class="text-wrapper-13">Presiona aquí para usar el asistente de voz.</p>
+        </div>
+        <img class="capa" src="{{ url_for('static', filename='img/SB.svg') }}" alt="" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+
+  <!-- JS separado -->
+  <script src="{{ url_for('static', filename='js/inicio.js') }}"></script>
+</body>
+</html>
