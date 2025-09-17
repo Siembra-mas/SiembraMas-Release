@@ -72,6 +72,7 @@ def Prediccion(ruta, lugar, mes_solicitado=None, Cultivo=None):
     resultados["Nombre_Mes"] = resultados["Mes"].map(nombres_meses)
 
     # Filtrar mes si se solicita
+    
     if mes_solicitado:
         if isinstance(mes_solicitado, int):
             resultados = resultados[resultados["Mes"] == mes_solicitado]
