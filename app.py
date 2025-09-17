@@ -1,171 +1,282 @@
-# app.py
-from flask import Flask, render_template, request, jsonify, url_for
-import unicodedata, re
+# app.py (versión corregida y robusta)
+from flask import Flask, render_template, request, jsonify, abort
+import unicodedata
+import re
 import pandas as pd
+from datetime import datetime
+from functools import lru_cache
+from typing import Dict, Tuple, Optional
 
-# === Importar tus módulos (no se modifican) ===
-import Prediccion  # usa Prediccion.Prediccion(...), predice 2025 y devuelve Pred_TempMin / Pred_tempMax  :contentReference[oaicite:6]{index=6}
-from Cultivos import obtener_cultivos  # lee CSV y agrupa cultivos por entidad  :contentReference[oaicite:7]{index=7}
+# ======================== Dependencias del proyecto ==========================
+from prediccion import Prediccion
+from cultivos import obtener_cultivos
+from catalogos import estados, municipios, Lugar, coordenadas, coordenadas_municipios
 
-# Catálogos (nombre del archivo puede variar; intentamos ambos)
-try:
-    from Catalogos import estados, municipios, Lugar, coordenadas, coordenadas_municipios
-except Exception:
-    from catalogo import estados, municipios, Lugar, coordenadas, coordenadas_municipios
-
+# =============================== Config Flask ================================
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
-# ---------------- Utilidades ----------------
+# ================================= Utilidades ================================
 def normalizar_texto(texto: str) -> str:
+    """Quita acentos y pasa a MAYÚSCULAS (para comparaciones robustas)."""
     if not isinstance(texto, str):
         return texto
-    texto = unicodedata.normalize('NFD', texto).encode('ascii', 'ignore').decode('utf-8')
+    texto = unicodedata.normalize("NFD", texto).encode("ascii", "ignore").decode("utf-8")
     return texto.upper()
 
 def slug_cultivo(nombre: str) -> str:
-    """crea un slug coherente para nombre de imagen a partir del cultivo."""
-    s = unicodedata.normalize('NFD', nombre).encode('ascii', 'ignore').decode('utf-8')
-    s = re.sub(r'[^a-zA-Z0-9]+', '-', s.strip().lower())
-    s = re.sub(r'-+', '-', s).strip('-')
-    return s  # p.ej. "Tomate rojo (jitomate)" -> "tomate-rojo-jitomate"
+    """Crea un slug de archivo/imagen a partir del nombre del cultivo."""
+    s = unicodedata.normalize("NFD", nombre).encode("ascii", "ignore").decode("utf-8")
+    s = re.sub(r"[^a-zA-Z0-9]+", "-", s.strip().lower())
+    s = re.sub(r"-+", "-", s).strip("-")
+    return s
 
-MESES = [
-    "Todos",
-    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-]
-ANIOS = [2025]  # tu función hoy genera 2025  :contentReference[oaicite:8]{index=8}
+def nearest_by_coords(lat: float, lon: float, pool_dict: Dict[str, Tuple[float, float]]) -> Optional[str]:
+    """Devuelve la clave del diccionario con coordenadas más cercana a (lat, lon)."""
+    mejor_clave, mejor_d = None, float("inf")
+    for clave, coords in pool_dict.items():
+        try:
+            la, lo = float(coords[0]), float(coords[1])
+        except Exception:
+            continue  # ignora coordenadas inválidas
+        d = (la - lat) ** 2 + (lo - lon) ** 2
+        if d < mejor_d:
+            mejor_clave, mejor_d = clave, d
+    return mejor_clave
 
-def nearest_by_coords(lat, lon, pool_dict):
-    best_key, best_d = None, 10**9
-    for k, (la, lo) in pool_dict.items():
-        d = (la - lat)**2 + (lo - lon)**2
-        if d < best_d:
-            best_key, best_d = k, d
-    return best_key
+def buscar_coords(ruta: str, lugar: str):
+    """
+    Devuelve (lat, lon) usando los catálogos de coordenadas según la ruta.
+    - Estados  -> usa `coordenadas`
+    - Municipios -> usa `coordenadas_municipios`
+    Compara con claves normalizadas para evitar problemas de acentos/mayúsculas.
+    """
+    if not lugar:
+        return None, None
+    
+    pool = coordenadas_municipios if ruta == "Municipios" else coordenadas
 
-# ---------------- Rutas ----------------
+    # mapa normalizado -> (lat, lon)
+    pool_norm = {normalizar_texto(k): v for k, v in pool.items()}
+    return pool_norm.get(normalizar_texto(lugar), (None, None))
+
+def calcular_probabilidad(temp_min_pred: float, temp_max_pred: float, tmin_ok: float, tmax_ok: float) -> float:
+    """
+    Calcula un % de cercanía al rango [tmin_ok, tmax_ok] (0-100).
+    Considera la distancia de los extremos respecto al rango óptimo.
+    """
+    if tmax_ok == tmin_ok:
+        return 0.0
+    dentro_min = max(0, min(1, (temp_max_pred - tmin_ok) / (tmax_ok - tmin_ok)))
+    dentro_max = max(0, min(1, (tmax_ok - temp_min_pred) / (tmax_ok - tmin_ok)))
+    return round(((dentro_min + dentro_max) / 2) * 100, 1)
+
+# ================================= Constantes ================================
+MESES = (
+    "Enero","Febrero","Marzo","Abril","Mayo","Junio",
+    "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+)
+ANIOS = (datetime.now().year,)  # año actual por defecto
+
+def mes_actual_nombre() -> str:
+    """Devuelve el nombre del mes actual en español, usando MESES."""
+    idx = datetime.now().month  # 1..12
+    return MESES[idx - 1]
+
+# ======================= Cargas únicas / Cache en memoria ====================
+# Carga única del CSV de condiciones (si no existe, usa DF vacío sin romper)
+try:
+    CONDICIONES_DF = pd.read_csv("./CondicionesIdeales/CondicionesIdeales.csv", encoding="utf-8")
+    CONDICIONES_DF["Cultivo_normalizado"] = CONDICIONES_DF["Cultivo"].apply(normalizar_texto)
+except Exception:
+    CONDICIONES_DF = pd.DataFrame(columns=["Cultivo", "Temp min optima", "Temp max optima", "Cultivo_normalizado"])
+
+@lru_cache(maxsize=512)
+def _pred_cache(ruta: str, lugar: str, mes_solicitado: int, cultivo: Optional[str]):
+    """
+    Cachea llamadas a Prediccion(...) por parámetros.
+    - mes_solicitado: 1..12
+    - cultivo: None para clima general; str para cultivo específico
+    """
+    return Prediccion(ruta=ruta, lugar=lugar, mes_solicitado=mes_solicitado, Cultivo=cultivo)
+
+# ================================== Rutas ====================================
 @app.route("/", methods=["GET"])
 def home():
+    """Página de inicio: preselecciona el mes actual y muestra selects base."""
     context = dict(
         ruta_opciones=Lugar,
         estados=estados,
         municipios=municipios,
-        meses=MESES,
+        meses=MESES,                 
         anios=ANIOS,
         ruta_sel="Estados",
         estado_sel="",
         municipio_sel="",
-        mes_sel="Todos",
+        mes_sel=mes_actual_nombre(),   # mes actual por defecto
         anio_sel=ANIOS[0],
-        temp_max=None, temp_min=None, temp_media=None,
-        precipitacion=None, humedad=None,
+        temp_max=None,
+        temp_min=None,
+        temp_media=None,
+        precipitacion=None,
+        humedad=None,
         nombre_mes=None,
-        recomendaciones=[]  # lista de tarjetas a pintar
+        recomendaciones=[],
+        coordenadas=coordenadas,
+        coordenadas_municipios=coordenadas_municipios,
     )
     return render_template("inicio_sm.html", **context)
 
 @app.route("/ubicarme", methods=["POST"])
 def ubicarme():
-    data = request.get_json(force=True)
-    lat = float(data.get("lat"))
-    lon = float(data.get("lon"))
-    municipio_cercano = nearest_by_coords(lat, lon, coordenadas_municipios) if 'coordenadas_municipios' in globals() else None
+    """
+    Dado (lat, lon), devuelve Estado o Municipio más cercano.
+    Valida parámetros y responde JSON claro o 400 en caso de error.
+    """
+    data = request.get_json(silent=True) or {}
+    try:
+        lat = float(data.get("lat", ""))
+        lon = float(data.get("lon", ""))
+    except Exception:
+        abort(400, description="Parámetros 'lat' y 'lon' inválidos o ausentes.")
+
+    municipio_cercano = nearest_by_coords(lat, lon, coordenadas_municipios)
     if municipio_cercano:
         return jsonify({"ruta": "Municipios", "lugar": municipio_cercano})
+
     estado_cercano = nearest_by_coords(lat, lon, coordenadas)
-    return jsonify({"ruta": "Estados", "lugar": estado_cercano})
+    if estado_cercano:
+        return jsonify({"ruta": "Estados", "lugar": estado_cercano})
+
+    abort(404, description="No se encontró una ubicación cercana válida.")
 
 @app.route("/generar", methods=["POST"])
 def generar():
-    ruta = request.form.get("ruta") or "Estados"     # "Estados" | "Municipios"
-    estado = request.form.get("estado") or ""
-    municipio = request.form.get("municipio") or ""
-    mes_texto = request.form.get("mes") or "Todos"
-    anio = int(request.form.get("anio") or 2025)
+    """
+    Arma el contexto con predicciones (clima general) y recomendaciones por cultivo.
+    Reglas:
+      - Si falta 'lugar' (estado/municipio), renderiza sin cálculos.
+      - 'mes' por defecto es el mes actual; se pasa 1..12 a Prediccion.
+    """
+    ruta = (request.form.get("ruta") or "Estados").strip()
+    estado = (request.form.get("estado") or "").strip()
+    municipio = (request.form.get("municipio") or "").strip()
 
-    # Determinar lugar según la ruta elegida (misma idea de tu Main.py)  :contentReference[oaicite:9]{index=9}
+    mes_texto = (request.form.get("mes") or mes_actual_nombre()).strip()
+    anio = int(request.form.get("anio") or ANIOS[0])
+
+    # Índice de mes para el modelo (1..12)
+    try:
+        mes_solicitado = MESES.index(mes_texto) + 1
+    except ValueError:
+        # Si viene un mes inválido, usa el actual
+        mes_texto = mes_actual_nombre()
+        mes_solicitado = MESES.index(mes_texto) + 1
+
+    # Determina el 'lugar' y el CSV de cultivos según la ruta
     if ruta == "Estados":
         lugar = estado
         ruta_csv_cultivos = "./Ideal/CultivoEstado.csv"
     else:
+        ruta = "Municipios"  # normaliza valor
         lugar = municipio
         ruta_csv_cultivos = "./Ideal/CultivoMunicipio.csv"
 
-    # Mes solicitado: entero 1..12 o None
-    mes_solicitado = MESES.index(mes_texto) if mes_texto and mes_texto != "Todos" else None
+    # Si no hay lugar, regresa vista básica con el mes/año ya establecidos
+    if not lugar:
+        context = dict(
+            ruta_opciones=Lugar,
+            estados=estados,
+            municipios=municipios,
+            meses=MESES,
+            anios=ANIOS,
+            ruta_sel=ruta,
+            estado_sel=estado,
+            municipio_sel=municipio,
+            mes_sel=mes_texto,
+            anio_sel=anio,
+            temp_max=None,
+            temp_min=None,
+            temp_media=None,
+            precipitacion=None,
+            humedad=None,
+            nombre_mes=None,
+            recomendaciones=[],
+            coordenadas=coordenadas,
+            coordenadas_municipios=coordenadas_municipios,
+        )
+        return render_template("inicio_sm.html", **context)
 
-    temp_max = temp_min = temp_media = None
-    nombre_mes = None
+    # ======================= Predicción clima general ========================
+    temp_min = temp_max = temp_media = None
+    try:
+        df_pred = _pred_cache(ruta, lugar, mes_solicitado, None)
+        if isinstance(df_pred, pd.DataFrame) and not df_pred.empty:
+            r0 = df_pred.iloc[0]
+            # Redondeo a enteros
+            temp_min = int(round(float(r0["Pred_TempMin"])))
+            temp_max = int(round(float(r0["Pred_tempMax"])))
+            temp_media = int(round((temp_min + temp_max) / 2.0))
+    except Exception:
+        # En caso de error del modelo, deja métricas como None
+        pass
 
-    # --- 1) Temperaturas (usa tu función tal cual)  :contentReference[oaicite:10]{index=10}
-    if ruta and lugar:
-        df = Prediccion.Prediccion(ruta=ruta, lugar=lugar, mes_solicitado=mes_solicitado, Cultivo=None)
-        if not df.empty:
-            row = df.iloc[0]
-            temp_min = float(row["Pred_TempMin"])
-            temp_max = float(row["Pred_tempMax"])
-            temp_media = round((temp_min + temp_max) / 2.0, 2)
-            nombre_mes = row.get("Nombre_Mes", None)
-
+    nombre_mes = mes_texto
     precipitacion = None
     humedad = None
 
-    # --- 2) Recomendaciones de cultivos (estructura de tarjetas) ---
+    # ========================= Recomendaciones por cultivo ===================
     recomendaciones = []
     try:
-        # cultivos por entidad/municipio  :contentReference[oaicite:11]{index=11}
         dic_cultivos = obtener_cultivos(ruta_csv_cultivos)
-        dic_norm = {normalizar_texto(k): v for k, v in dic_cultivos.items()}
-        lista_cultivos = dic_norm.get(normalizar_texto(lugar), []) if lugar else []
+    except Exception:
+        dic_cultivos = {}
 
-        # condiciones ideales por cultivo (para mensaje/probabilidad)  :contentReference[oaicite:12]{index=12}
-        condiciones = pd.read_csv("./CondicionesIdeales/CondicionesIdeales.csv", encoding="utf-8")
-        condiciones["Cultivo_normalizado"] = condiciones["Cultivo"].apply(normalizar_texto)
+    dic_norm = {normalizar_texto(k): v for k, v in dic_cultivos.items()}
+    lista_cultivos = dic_norm.get(normalizar_texto(lugar), []) if lugar else []
 
-        def calcular_probabilidad(temp_min_pred, temp_max_pred, tmin_ok, tmax_ok):
-            # misma idea que Main.py: cuán cerca del rango ideal  :contentReference[oaicite:13]{index=13}
-            rango = (tmin_ok, tmax_ok)
-            dentro_min = max(0, min(1, (temp_max_pred - rango[0]) / (rango[1] - rango[0])))
-            dentro_max = max(0, min(1, (rango[1] - temp_min_pred) / (rango[1] - rango[0])))
-            return round(((dentro_min + dentro_max) / 2) * 100, 1)
-
-        for cultivo in lista_cultivos:
-            # Predicción específica para el cultivo (tu función la acepta; no se modifica)  :contentReference[oaicite:14]{index=14}
-            df_c = Prediccion.Prediccion(ruta=ruta, lugar=lugar, mes_solicitado=mes_solicitado, Cultivo=cultivo)
-            if df_c.empty:
+    for cultivo in lista_cultivos:
+        try:
+            df_c = _pred_cache(ruta, lugar, mes_solicitado, cultivo)
+            if not isinstance(df_c, pd.DataFrame) or df_c.empty:
                 continue
-            r0 = df_c.iloc[0]
-            tmin_pred = float(r0["Pred_TempMin"])
-            tmax_pred = float(r0["Pred_tempMax"])
 
-            # condiciones ideales de este cultivo
-            c_norm = normalizar_texto(cultivo)
-            cond = condiciones[condiciones["Cultivo_normalizado"] == c_norm]
-            if not cond.empty:
-                tmin_ok = float(cond["Temp min optima"].iloc[0])
-                tmax_ok = float(cond["Temp max optima"].iloc[0])
-                prob = calcular_probabilidad(tmin_pred, tmax_pred, tmin_ok, tmax_ok)
-                if prob >= 70:
-                    texto = f"✅ Alta probabilidad ({prob}%) de siembra de {cultivo}"
-                elif prob >= 40:
-                    texto = f"⚠️ Posible siembra ({prob}%) de {cultivo}"
+            r0 = df_c.iloc[0]
+            tmin_pred = int(round(float(r0["Pred_TempMin"])))
+            tmax_pred = int(round(float(r0["Pred_tempMax"])))
+
+            # Busca condiciones óptimas (si existen)
+            texto = ""
+            prob = None
+            if not CONDICIONES_DF.empty:
+                c_norm = normalizar_texto(cultivo)
+                cond = CONDICIONES_DF[CONDICIONES_DF["Cultivo_normalizado"] == c_norm]
+                if not cond.empty:
+                    tmin_ok = float(cond["Temp min optima"].iloc[0])
+                    tmax_ok = float(cond["Temp max optima"].iloc[0])
+                    prob = calcular_probabilidad(tmin_pred, tmax_pred, tmin_ok, tmax_ok)
+
+                    if prob >= 70:
+                        texto = f"✅ Alta probabilidad ({prob}%) de siembra de {cultivo}"
+                    elif prob >= 40:
+                        texto = f"⚠️ Posible siembra ({prob}%) de {cultivo}"
+                    else:
+                        texto = f"❌ No conviene ({prob}%) de siembra de {cultivo}"
                 else:
-                    texto = f"❌ No conviene ({prob}%) de siembra de {cultivo}"
+                    texto = f"No hay condiciones registradas para {cultivo}"
             else:
-                prob = None
-                texto = f"No hay condiciones registradas para {cultivo}"
+                texto = f"No hay tabla de condiciones cargada. Revisa CondicionesIdeales.csv"
 
             recomendaciones.append({
                 "cultivo": cultivo,
                 "prob": prob,
                 "texto": texto,
-                "img_slug": slug_cultivo(cultivo)  # para mostrar imagen coherente
+                "img_slug": slug_cultivo(cultivo)
             })
-    except Exception:
-        # Si faltan CSVs, la sección quedará vacía sin romper la página
-        recomendaciones = []
+        except Exception:
+            # Si algo falla para un cultivo, lo omitimos y seguimos con el resto
+            continue
 
+    # ================================ Contexto ===============================
     context = dict(
         ruta_opciones=Lugar,
         estados=estados,
@@ -183,9 +294,12 @@ def generar():
         precipitacion=precipitacion,
         humedad=humedad,
         nombre_mes=nombre_mes,
-        recomendaciones=recomendaciones
+        recomendaciones=recomendaciones,
+        coordenadas=coordenadas,
+        coordenadas_municipios=coordenadas_municipios,
     )
     return render_template("inicio_sm.html", **context)
 
+# ================================== Main =====================================
 if __name__ == "__main__":
     app.run(debug=True)

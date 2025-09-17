@@ -35,49 +35,63 @@
                 <div class="div-3">
                   <!-- RUTA: Estados / Municipios -->
                   <div class="BOTON-SELECCION" style="width:auto;">
-                    <label class="text-wrapper-2" style="margin-right:10px;">Ruta de Datos</label>
+                    <label class="text-wrapper-2" style="margin-right:10px;">Ubicación</label>
                     <label><input type="radio" name="ruta" value="Estados" {% if ruta_sel=='Estados' %}checked{% endif %}> Estados</label>
                     <label style="margin-left:10px;"><input type="radio" name="ruta" value="Municipios" {% if ruta_sel=='Municipios' %}checked{% endif %}> Municipios</label>
                   </div>
 
                   <!-- ESTADO -->
-                  <div class="BOTON-SELECCION" style="width:260px;">
-                    <select name="estado" id="estado" aria-label="Seleccione un estado" style="width:100%;background:transparent;border:none;outline:none;">
+                  <div class="BOTON-SELECCION" style="width:160px;">
+
+                    <select name="estado" id="estado" aria-label="Elegir estado" style="width:100%;background:transparent;border:none;outline:none;">
                       <option value="">Seleccione un estado</option>
                       {% for e in estados %}
-                        <option value="{{ e }}" {% if estado_sel==e %}selected{% endif %}>{{ e }}</option>
+                        {% set c = coordenadas.get(e) %}
+                        <option
+                          value="{{ e }}"
+                          {% if estado_sel==e %}selected{% endif %}
+                          data-lat="{{ c[0] if c else '' }}"
+                          data-lng="{{ c[1] if c else '' }}"
+                        >{{ e }}</option>
                       {% endfor %}
                     </select>
+
                     <div class="chevron-down" aria-hidden="true">
                       <img class="icon" src="{{ url_for('static', filename='img/icon-2.svg') }}" alt="" />
                     </div>
                   </div>
 
                   <!-- MUNICIPIO -->
-                  <div class="BOTON-SELECCION" style="width:260px;">
+                  <div class="BOTON-SELECCION" style="width:160px;">
+
                     <select name="municipio" id="municipio" aria-label="Elegir municipio" style="width:100%;background:transparent;border:none;outline:none;">
                       <option value="">Elegir municipio</option>
                       {% for m in municipios %}
-                        <option value="{{ m }}" {% if municipio_sel==m %}selected{% endif %}>{{ m }}</option>
+                        {% set c = coordenadas_municipios.get(m) %}
+                        <option
+                          value="{{ m }}"
+                          {% if municipio_sel==m %}selected{% endif %}
+                          data-lat="{{ c[0] if c else '' }}"
+                          data-lng="{{ c[1] if c else '' }}"
+                        >{{ m }}</option>
                       {% endfor %}
                     </select>
+
+
                     <div class="chevron-down" aria-hidden="true">
                       <img class="icon" src="{{ url_for('static', filename='img/icon-3.svg') }}" alt="" />
                     </div>
                   </div>
 
                   <!-- UBICARME -->
-                  <button type="button" id="btn-ubicarme" class="BOTON-UBICARME" aria-label="Detectar ubicación automáticamente">
-                    <img class="img" src="{{ url_for('static', filename='img/icon-ubicarme.svg') }}" alt="" aria-hidden="true" />
-                    <span class="text-wrapper-3">Ubicarme</span>
-                  </button>
+
                 </div>
 
                 <!-- MES / AÑO -->
                 <div class="div-3">
-                  <div class="BOTON-SELECCION" style="width:210px;">
+                    <div class="BOTON-SELECCION" style="width:210px;">
                     <select name="mes" id="mes" aria-label="Selecciona un mes" style="width:100%;background:transparent;border:none;outline:none;">
-                      {% for m in meses %}
+                      {% for m in meses %}  {# meses ya NO incluye "Todos" #}
                         <option value="{{ m }}" {% if mes_sel==m %}selected{% endif %}>{{ m }}</option>
                       {% endfor %}
                     </select>
@@ -90,6 +104,13 @@
                       {% endfor %}
                     </select>
                   </div>
+
+                  <button type="button" id="btn-ubicarme" class="BOTON-UBICARME" aria-label="Detectar ubicación automáticamente">
+                    <img class="img" src="{{ url_for('static', filename='img/icon-ubicarme.svg') }}" alt="" aria-hidden="true" />
+                    <span class="text-wrapper-3">Ubicarme</span>
+                  </button>
+
+
                 </div>
 
                 <!-- GENERAR -->
@@ -164,11 +185,26 @@
 
             <aside class="MAIN-r">
               <div class="MARCO-MAIN-r-2">
-                <time class="text-wrapper-5" datetime="08:51:00">08:51:00</time>
+                <time id="reloj" class="text-wrapper-5" datetime="{{ fecha_hora }}">{{ fecha_hora }}</time>
                 <div class="text-wrapper-6">Monitoreo tiempo real</div>
               </div>
 
+              <script>
+                function actualizarReloj() {
+                  const ahora = new Date();
+                  const fechaHora = ahora.toLocaleString("es-MX", {
+                    day: "2-digit", month: "2-digit", year: "numeric",
+                    hour: "2-digit", minute: "2-digit", second: "2-digit"
+                  });
+                  document.getElementById("reloj").textContent = fechaHora;
+                  document.getElementById("reloj").setAttribute("datetime", fechaHora);
+                }
+                setInterval(actualizarReloj, 1000);
+                actualizarReloj(); // inicial
+              </script>
+
               <iframe
+                id="mapFrame"
                 class="MAP"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12037.618434200173!2d-99.133208!3d19.432607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f92a6b8b6cdd%3A0x5405c89bdbf2fbb1!2sCentro%20Hist%C3%B3rico%20de%20la%20Ciudad%20de%20M%C3%A9xico!5e0!3m2!1ses!2smx!4v1694012345678!5m2!1ses!2smx"
                 allowfullscreen=""
@@ -176,6 +212,7 @@
                 referrerpolicy="no-referrer-when-downgrade"
                 aria-label="Mapa interactivo de la región seleccionada">
               </iframe>
+
             </aside>
           </section>
 
@@ -279,5 +316,7 @@
 
   <!-- JS separado -->
   <script src="{{ url_for('static', filename='js/inicio.js') }}"></script>
+  
+
 </body>
 </html>

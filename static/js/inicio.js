@@ -70,3 +70,69 @@
     }
   });
 })();
+
+(function () {
+  const selEstado = document.getElementById('estado');
+  const selMunicipio = document.getElementById('municipio');
+  const btnUbicarme = document.getElementById('btn-ubicarme');
+  const map = document.getElementById('mapFrame');
+
+  const setMap = (lat, lng, zoom = 11) => {
+    if (!map || !lat || !lng) return;
+    map.src = `https://www.google.com/maps?q=${encodeURIComponent(lat + ',' + lng)}&z=${zoom}&output=embed`;
+  };
+
+  const centerFromSelect = (selectEl, zoom) => {
+    if (!selectEl) return false;
+    const opt = selectEl.options[selectEl.selectedIndex];
+    if (!opt) return false;
+    const lat = opt.getAttribute('data-lat');
+    const lng = opt.getAttribute('data-lng');
+    if (lat && lng) { setMap(lat, lng, zoom); return true; }
+    return false;
+  };
+
+  // Mueve el mapa al cambiar Estado / Municipio
+  selEstado?.addEventListener('change', () => centerFromSelect(selEstado, 7));
+  selMunicipio?.addEventListener('change', () => centerFromSelect(selMunicipio, 12));
+
+  // Ubicarme → servidor devuelve { ruta, lugar }, setea el select y dispara el cambio
+  btnUbicarme?.addEventListener('click', () => {
+    if (!navigator.geolocation) { alert('Geolocalización no soportada'); return; }
+    navigator.geolocation.getCurrentPosition(pos => {
+      const { latitude, longitude } = pos.coords;
+      fetch('/ubicarme', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lat: latitude, lon: longitude })
+      })
+      .then(r => r.json())
+      .then(data => {
+        const { ruta, lugar } = data || {};
+        if (ruta === 'Municipios' && selMunicipio) {
+          // elige municipio y centra
+          const opt = [...selMunicipio.options].find(o => o.value === lugar);
+          if (opt) { opt.selected = true; selMunicipio.dispatchEvent(new Event('change')); return; }
+        }
+        if (ruta === 'Estados' && selEstado) {
+          // elige estado y centra
+          const opt = [...selEstado.options].find(o => o.value === lugar);
+          if (opt) { opt.selected = true; selEstado.dispatchEvent(new Event('change')); return; }
+        }
+        // Fallback si no mapeó a nada
+        setMap(latitude, longitude, 12);
+      })
+      .catch(() => {
+        setMap(latitude, longitude, 12);
+        alert('No se pudo ubicar automáticamente con el servidor.');
+      });
+    }, () => alert('Permiso de ubicación denegado.'));
+  });
+
+  // Estado inicial del mapa: municipio > estado > Xalapa
+  window.addEventListener('load', () => {
+    if (centerFromSelect(selMunicipio, 12)) return;
+    if (centerFromSelect(selEstado, 7)) return;
+    setMap(19.5333, -96.9167, 12); // Xalapa por defecto
+  });
+})();
