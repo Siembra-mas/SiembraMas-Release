@@ -515,7 +515,7 @@
 .INICIO-SM .RECOMENDACION {
   display: flex;
   flex-direction: column;
-  width: 1363px;
+  width: 1400px;
   align-items: flex-start;
   gap: 20px;
   position: relative;
@@ -870,3 +870,175 @@ details .accordion-content {
   flex-direction: column;
   position: relative;
 }
+
+.recom-container {
+  position: relative;
+  width: 100%;
+  max-width: 1600px; /* Ajusta el ancho máximo según tu diseño */
+  margin: 0 auto;
+  padding: 0 50px; /* Espacio para los botones de navegación */
+  box-sizing: border-box;
+}
+
+.recom-slider {
+  width: 100%;
+  overflow: hidden; /* Oculta las páginas que no están activas */
+}
+
+.recom-pages-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* Animación de deslizamiento */
+}
+
+.recom-page {
+  width: 100%;
+  flex-shrink: 0; /* Evita que las páginas se encojan */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.recom-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Cuadrícula responsiva */
+  grid-template-rows: repeat(2, auto);
+  gap: 25px;
+  min-height: 400px; /* Altura mínima para evitar colapsos */
+}
+
+/* Diseño de cada tarjeta de recomendación */
+.recom-card {
+  background-color: var(--alabaster);
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.recom-card-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.recom-card-body {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.recom-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.recom-card-title {
+  font-family: var(--TEXTO-info4-font-family);
+  font-weight: var(--TEXTO-info4-font-weight);
+  font-size: var(--TEXTO-info4-font-size);
+  color: var( --dark-jungle-green);
+  margin: 0;
+}
+
+.prob-badge {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  white-space: nowrap;
+}
+
+.prob-badge.alta { background-color: #28a745; } /* Verde */
+.prob-badge.media { background-color: #ffc107; color: #212529; } /* Amarillo */
+.prob-badge.baja { background-color: #dc3545; } /* Rojo */
+
+.recom-card-text {
+  font-family: var(--TEXTO-info5-font-family);
+  font-weight: var(--TEXTO-info5-font-weight);
+  font-size: var(--TEXTO-info5-font-size);
+  line-height: 1.5;
+  color: var(--dolphin-gray);
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Controles de navegación (flechas) */
+.recom-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--alabaster);
+  border: 1px solid var(--dolphin-gray);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.recom-nav:hover {
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.recom-nav.prev { left: 10px; }
+.recom-nav.next { right: 10px; }
+.recom-nav.hidden { display: none; }
+
+/* Indicadores de página (puntos) */
+.recom-dots {
+  text-align: center;
+}
+
+.recom-dot {
+  display: inline-block;
+  width: 10px;
+  height: 15px;
+  margin: 0 4px;
+  border-radius: 50%;
+  border: 2px solid var(--dolphin-gray);   /* anillo gris */
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.recom-dot:hover {
+  transform: scale(1.2);
+  border-color: var(--deep-moss-green); /* cambia el anillo al color principal */
+}
+
+.recom-dot.active {
+  background-color: var(--deep-moss-green); /* relleno cuando está activo */
+  border-color: var(--deep-moss-green);
+  transform: scale(1.3);
+}
+
+/* Mensaje para cuando no hay resultados */
+.recom-no-results {
+    text-align: center;
+    padding: 50px 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #888;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

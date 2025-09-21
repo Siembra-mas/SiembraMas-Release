@@ -136,3 +136,66 @@
     setMap(19.5333, -96.9167, 12); // Xalapa por defecto
   });
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sliderContainer = document.querySelector('.recom-container');
+    if (!sliderContainer) return; // Si no hay recomendaciones, no hacer nada
+
+    const wrapper = sliderContainer.querySelector('.recom-pages-wrapper');
+    const pages = sliderContainer.querySelectorAll('.recom-page');
+    const nextBtn = sliderContainer.querySelector('.recom-nav.next');
+    const prevBtn = sliderContainer.querySelector('.recom-nav.prev');
+    const dotsContainer = sliderContainer.querySelector('.recom-dots');
+
+    if (pages.length <= 1) return; // Si solo hay una página, no se necesita JS
+
+    let currentPage = 0;
+    const totalPages = pages.length;
+
+    // Crear los puntos de paginación
+    for (let i = 0; i < totalPages; i++) {
+        const dot = document.createElement('button');
+        dot.classList.add('recom-dot');
+        dot.dataset.page = i;
+        dotsContainer.appendChild(dot);
+    }
+    const dots = dotsContainer.querySelectorAll('.recom-dot');
+
+    function updateSlider() {
+        // Mover el carrusel
+        wrapper.style.transform = `translateX(-${currentPage * 100}%)`;
+
+        // Actualizar los puntos
+        dots.forEach(dot => {
+            dot.classList.toggle('active', parseInt(dot.dataset.page) === currentPage);
+        });
+
+        // Ocultar/mostrar flechas
+        prevBtn.classList.toggle('hidden', currentPage === 0);
+        nextBtn.classList.toggle('hidden', currentPage === totalPages - 1);
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            updateSlider();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 0) {
+            currentPage--;
+            updateSlider();
+        }
+    });
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            currentPage = parseInt(dot.dataset.page);
+            updateSlider();
+        });
+    });
+
+    // Inicializar el carrusel
+    updateSlider();
+});

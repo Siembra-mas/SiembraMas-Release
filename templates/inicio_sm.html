@@ -3,8 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Siembra+</title>
+  <title>Siembra+ | Inicio de recomendaciones</title>
   <meta name="description" content="Plataforma inteligente que combina datos climáticos para apoyar a los productores en la toma de decisiones agrícolas." />
+
+  <link rel="icon" type="image/svg" href="{{ url_for('static', filename='img/ISN.svg') }}">
+
 
   <!-- CSS desde /static -->
   <link rel="stylesheet" href="{{ url_for('static', filename='globals.css') }}" />
@@ -234,54 +237,57 @@
 
           <!-- RECOMENDACIONES (dinámico) -->
           <section class="RECOMENDACION" id="recom-section">
-            <div class="TEXT-4">
-              <h2 class="text-wrapper">Resultados del análisis</h2>
-              <p class="p">
-                De acuerdo con los datos de tu zona como la temperatura, el clima y la humedad, he preparado una lista
-                de cultivos que se adaptan mejor a tus condiciones. En cada uno verás el porcentaje de garantía y qué tan
-                efectiva sería su siembra.
-              </p>
-            </div>
+              <div class="TEXT-4">
+                <h2 class="text-wrapper">Resultados del análisis</h2>
+                <p class="p">
+                  De acuerdo con los datos de tu zona, he preparado una lista de los cultivos que mejor se adaptan, ordenados por la probabilidad de éxito.
+                </p>
+              </div>
 
-            <div class="RECOM" role="list">
-              {% if recomendaciones and recomendaciones|length > 0 %}
-                {% for rec in recomendaciones %}
-                <details class="div-6" {% if loop.first %}open{% endif %}>
-                  <summary class="accordion-summary">
-                    <img class="mask-group" src="{{ url_for('static', filename='img/cultivos/' + rec.img_slug + '.png') }}"
-                         alt="Imagen de {{ rec.cultivo }}" />
-                    <div class="frame">
-                      <div class="accordion-title">
-                        <h3 class="text-wrapper-8">{{ rec.cultivo }}</h3>
-                        <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up-2.svg') }}" alt="" aria-hidden="true" />
+              <div class="recom-container">
+                  {% if recomendaciones and recomendaciones|length > 0 %}
+                      <div class="recom-slider">
+                          <div class="recom-pages-wrapper">
+                              {% for rec in recomendaciones %}
+                                  {% if loop.index0 % 4 == 0 %}
+                                      <div class="recom-page" data-page="{{ loop.index0 // 4 }}">
+                                          <div class="recom-grid">
+                                  {% endif %}
+                                              <div class="recom-card">
+                                                  <img class="recom-card-img" src="{{ url_for('static', filename='img/cultivos/' + rec.img_slug + '.png') }}" alt="Imagen de {{ rec.cultivo }}">
+                                                  <div class="recom-card-body">
+                                                      <div class="recom-card-header">
+                                                          <h3 class="recom-card-title">{{ rec.cultivo }}</h3>
+                                                          {% if rec.prob is not none %}
+                                                              {% set prob_class = 'baja' %}
+                                                              {% if rec.prob >= 70 %}{% set prob_class = 'alta' %}{% elif rec.prob >= 40 %}{% set prob_class = 'media' %}{% endif %}
+                                                              <span class="prob-badge {{ prob_class }}">{{ rec.prob }}%</span>
+                                                          {% endif %}
+                                                      </div>
+                                                      <p class="recom-card-text">{{ rec.texto }}</p>
+                                                  </div>
+                                              </div>
+                                  {% if (loop.index0 % 4 == 3) or loop.last %}
+                                          </div>
+                                      </div>
+                                  {% endif %}
+                              {% endfor %}
+                          </div>
                       </div>
-                    </div>
-                  </summary>
-                  <div class="accordion-content">
-                    <p class="body">{{ rec.texto }}</p>
-                  </div>
-                </details>
-                {% endfor %}
-              {% else %}
-                <!-- Tarjeta ejemplo (se muestra cuando aún no hay resultados) -->
-                <details class="div-6" open>
-                  <summary class="accordion-summary">
-                    <img class="mask-group" src="{{ url_for('static', filename='img/mask-group-4.png') }}" alt="Imagen de cultivo ejemplo" />
-                    <div class="frame">
-                      <div class="accordion-title">
-                        <h3 class="text-wrapper-8">Aguacate</h3>
-                        <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up-2.svg') }}" alt="" aria-hidden="true" />
+
+                      {% if recomendaciones|length > 4 %}
+                          <button class="recom-nav prev" aria-label="Anterior">&lt;</button>
+                          <button class="recom-nav next" aria-label="Siguiente">&gt;</button>
+                          <div class="recom-dots"></div>
+                      {% endif %}
+
+                  {% else %}
+                      <!-- Mensaje cuando no hay resultados -->
+                      <div class="recom-no-results">
+                          <p>Selecciona una ubicación y presiona "Generar" para ver las recomendaciones.</p>
                       </div>
-                    </div>
-                  </summary>
-                  <div class="accordion-content">
-                    <p class="body">
-                      Aquí aparecerán los cultivos recomendados cuando presiones "Generar".
-                    </p>
-                  </div>
-                </details>
-              {% endif %}
-            </div>
+                  {% endif %}
+              </div>
           </section>
 
           <footer class="FOOTER">
