@@ -6,10 +6,11 @@
     <title>Reporte de la siembra - Siembra+</title>
     <meta
       name="description"
-      content="Reporte detallado de siembra con información completa sobre la zona seleccionada, incluyendo gráficas climáticas y recomendaciones personalizadas."/>
-    <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="reporte_style.css" />
+      content="Reporte detallado de siembra con información completa sobre la zona seleccionada, incluyendo gráficas climáticas y recomendaciones personalizadas."
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='globals.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleguide.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='reporte_style.css') }}" />
   </head>
   <body>
     <div class="REPORTE-SM">
@@ -17,39 +18,37 @@
         <main class="MARCO-GENERAL">
           <section class="MARCO-MAIN">
 
-      <article class="div-2">
-        <header class="TITULO-PINCIPAL">
-          <img class="frame" src="img/ICON-02.svg" alt="Icono de reporte de siembra" />
-          <div class="frame-2">
-            <h1 class="text-wrapper">Reporte de la siembra</h1>
-            <p class="p">
-              Este es el reporte detallado, donde encontrarás toda la información completa sobre la siembra
-              correspondiente a la zona que seleccionaste previamente
-            </p>
-          </div>
-        </header>
+            <article class="div-2">
+              <header class="TITULO-PINCIPAL">
+                <img class="frame" src="{{ url_for('static', filename='img/ICON-02.svg') }}" alt="Icono de reporte de siembra" />
+                <div class="frame-2">
+                  <h1 class="text-wrapper">Reporte de la siembra</h1>
+                  <p class="p">
+                    Este es el reporte detallado, donde encontrarás toda la información completa sobre la siembra
+                    correspondiente a la zona que seleccionaste previamente
+                  </p>
+                </div>
+              </header>
 
-        <!-- Sustitución de la imagen por un PDF local -->
-        <object
-          class="PDF-SCREEN"
-          data="docs/reporte_climatico.pdf"
-          type="application/pdf"
-          aria-label="Vista previa del reporte PDF con datos detallados de siembra">
-          <p>
-            Tu navegador no puede mostrar el PDF.
-            <a href="docs/reporte-siembra.pdf" target="_blank" rel="noopener">Abrir o descargar PDF</a>
-          </p>
-        </object>
-      </article>
+              <!-- PDF servido desde /static/docs -->
+              <object
+                class="PDF-SCREEN"
+                data="{{ url_for('static', filename='docs/reporte_climatico.pdf') }}"
+                type="application/pdf"
+                aria-label="Vista previa del reporte PDF con datos detallados de siembra">
+                <p>
+                  Tu navegador no puede mostrar el PDF.
+                  <a href="{{ url_for('static', filename='docs/reporte-siembra.pdf') }}" target="_blank" rel="noopener">Abrir o descargar PDF</a>
+                </p>
+              </object>
+            </article>
 
             <aside class="div-2">
               <div class="BOTON-OPCIONAL">
                 <div class="TEXT">
                   <div class="TEXT-HEAD">
                     <h3 class="resumen-ejecutivo">Gráficas de adecuación climática</h3>
-
                     <div class="SIEMBRA-PLUS" aria-label="Siembra Plus"></div>
-
                   </div>
                   <label class="switch" for="switch-graficas">
                     <input
@@ -60,7 +59,7 @@
                       aria-describedby="desc-graficas"
                     />
                     <span class="switch-slider" role="presentation">
-                      <img class="knob" src="img/knob-6.svg" alt="" />
+                      <img class="knob" src="{{ url_for('static', filename='img/knob-6.svg') }}" alt="" />
                     </span>
                   </label>
                 </div>
@@ -68,13 +67,12 @@
                   visualización de temperatura, precipitación y humedad frente a los valores óptimos.
                 </p>
               </div>
+
               <div class="BOTON-OPCIONAL">
                 <div class="TEXT">
                   <div class="TEXT-HEAD">
                     <h3 class="resumen-ejecutivo">Datos detallados por cultivo</h3>
-
                     <div class="SIEMBRA-PLUS" aria-label="Siembra Plus"></div>
-
                   </div>
                   <label class="switch" for="switch-datos">
                     <input
@@ -85,7 +83,7 @@
                       aria-describedby="desc-datos"
                     />
                     <span class="switch-slider" role="presentation">
-                      <img class="knob" src="img/knob-4.svg" alt="" />
+                      <img class="knob" src="{{ url_for('static', filename='img/knob-4.svg') }}" alt="" />
                     </span>
                   </label>
                 </div>
@@ -93,13 +91,12 @@
                   temperatura óptima, humedad ideal, precipitación anual recomendada.
                 </p>
               </div>
+
               <div class="BOTON-OPCIONAL">
                 <div class="TEXT">
                   <div class="TEXT-HEAD">
                     <h3 class="resumen-ejecutivo">Listado completo de cultivos recomendables</h3>
-
                     <div class="SIEMBRA-PLUS" aria-label="Siembra Plus"></div>
-
                   </div>
                   <label class="switch" for="switch-listado">
                     <input
@@ -110,19 +107,18 @@
                       aria-describedby="desc-listado"
                     />
                     <span class="switch-slider" role="presentation">
-                      <img class="knob" src="img/image.svg" alt="" />
+                      <img class="knob" src="{{ url_for('static', filename='img/image.svg') }}" alt="" />
                     </span>
                   </label>
                 </div>
                 <p class="text-wrapper-2" id="desc-listado">con porcentaje de efectividad estimada.</p>
               </div>
+
               <div class="BOTON-OPCIONAL">
                 <div class="TEXT">
                   <div class="TEXT-HEAD">
                     <h3 class="resumen-ejecutivo">Clasificación por modelo</h3>
-
                     <div class="SIEMBRA-PLUS" aria-label="Siembra Plus"></div>
-
                   </div>
                   <label class="switch" for="switch-clasificacion">
                     <input
@@ -133,7 +129,7 @@
                       aria-describedby="desc-clasificacion"
                     />
                     <span class="switch-slider" role="presentation">
-                      <img class="knob" src="img/knob-3.svg" alt="" />
+                      <img class="knob" src="{{ url_for('static', filename='img/knob-3.svg') }}" alt="" />
                     </span>
                   </label>
                 </div>
@@ -141,13 +137,12 @@
                   cultivos con mayor viabilidad según los datos de entrada.
                 </p>
               </div>
+
               <div class="BOTON-OPCIONAL">
                 <div class="TEXT">
                   <div class="TEXT-HEAD">
                     <h3 class="resumen-ejecutivo">Resultado del modelo</h3>
-
                     <div class="SIEMBRA-PLUS" aria-label="Siembra Plus"></div>
-
                   </div>
                   <label class="switch" for="switch-resultado">
                     <input
@@ -158,19 +153,18 @@
                       aria-describedby="desc-resultado"
                     />
                     <span class="switch-slider" role="presentation">
-                      <img class="knob" src="img/knob.svg" alt="" />
+                      <img class="knob" src="{{ url_for('static', filename='img/knob.svg') }}" alt="" />
                     </span>
                   </label>
                 </div>
                 <p class="text-wrapper-2" id="desc-resultado">predicciones y recomendaciones personalizadas.</p>
               </div>
+
               <div class="BOTON-OPCIONAL">
                 <div class="TEXT">
                   <div class="TEXT-HEAD">
                     <h3 class="resumen-ejecutivo">Pronóstico estacional</h3>
-
                     <div class="SIEMBRA-PLUS" aria-label="Siembra Plus"></div>
-
                   </div>
                   <label class="switch" for="switch-pronostico">
                     <input
@@ -181,7 +175,7 @@
                       aria-describedby="desc-pronostico"
                     />
                     <span class="switch-slider" role="presentation">
-                      <img class="knob" src="img/knob-5.svg" alt="" />
+                      <img class="knob" src="{{ url_for('static', filename='img/knob-5.svg') }}" alt="" />
                     </span>
                   </label>
                 </div>
@@ -189,6 +183,7 @@
                   cómo podrían cambiar las condiciones en los próximos meses y su impacto en la siembra.
                 </p>
               </div>
+
               <div class="BOTON-OPCIONAL">
                 <div class="TEXT">
                   <h3 class="text-wrapper-3">Resumen ejecutivo</h3>
@@ -201,7 +196,7 @@
                       aria-describedby="desc-resumen"
                     />
                     <span class="switch-slider" role="presentation">
-                      <img class="knob" src="img/knob-2.svg" alt="" />
+                      <img class="knob" src="{{ url_for('static', filename='img/knob-2.svg') }}" alt="" />
                     </span>
                   </label>
                 </div>
@@ -209,18 +204,21 @@
                   una síntesis de las mejores opciones y decisiones prioritarias.
                 </p>
               </div>
+
               <div class="BOTONES-GENERALES">
                 <button class="div-3" type="button" aria-label="Descargar reporte">
-                  <img class="icon" src="img/icon-descarga.svg" alt="" />
+                  <img class="icon" src="{{ url_for('static', filename='img/icon-descarga.svg') }}" alt="" />
                   <span class="text-wrapper-4">Descargar</span>
                 </button>
                 <button class="div-3" type="button" aria-label="Preguntar por voz">
-                  <img class="img" src="img/icon-voz.svg" alt="" />
+                  <img class="img" src="{{ url_for('static', filename='img/icon-voz.svg') }}" alt="" />
                   <span class="text-wrapper-4">Preguntar por voz</span>
                 </button>
               </div>
             </aside>
+
           </section>
+
           <footer class="FOOTER">
             <p class="text-wrapper-5">© 2025 Siembra+. Todos los derechos reservados.</p>
             <p class="text-wrapper-6">
@@ -229,17 +227,18 @@
             </p>
           </footer>
         </main>
-          <header class="HEADER">
-            <img class="LOGO" src="img/LOGO.svg" alt="Logo de Siembra+" />
-            <nav class="NAV" role="navigation" aria-label="Navegación principal">
-              <a href="inicio_sm.html" class="title-wrapper"><span class="title">Inicio</span></a>
-              <a href="reporte_sm.html" class="title-wrapper"><span class="title">Reporte</span></a>
-              <a href="disp-monit_sm.html" class="title-wrapper"><span class="title">Dispositivo de monitoreo</span></a>
-              <a href="about_sm.html" class="title-wrapper"><span class="title">Sobre nosotros</span></a>
-            </nav>
-          </header>
+
+        <header class="HEADER">
+          <img class="LOGO" src="{{ url_for('static', filename='img/LOGO.svg') }}" alt="Logo de Siembra+" />
+          <nav class="NAV" role="navigation" aria-label="Navegación principal">
+            <a href="{{ url_for('inicio.home') }}" class="title-wrapper"><span class="title">Inicio</span></a>
+            <a href="{{ url_for('reporte.reporte') }}" class="title-wrapper"><span class="title">Reporte</span></a>
+            <a href="{{ url_for('disp_monit.disp_monit') }}" class="title-wrapper"><span class="title">Dispositivo de monitoreo</span></a>
+            <a href="{{ url_for('about.about') }}" class="title-wrapper"><span class="title">Sobre nosotros</span></a>
+          </nav>
+        </header>
+
       </div>
     </div>
-    
   </body>
 </html>

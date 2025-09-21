@@ -34,7 +34,7 @@
               </div>
 
               <!-- FORMULARIO (Flask) -->
-              <form class="div-2" role="form" aria-label="Formulario de selección de ubicación" method="POST" action="{{ url_for('generar') }}">
+              <form class="div-2" role="form" aria-label="Formulario de selección de ubicación" method="POST" action="{{ url_for('inicio.generar') }}">
                 <div class="div-3">
                   <!-- RUTA: Estados / Municipios -->
                   <div class="BOTON-SELECCION" style="width:auto;">
@@ -302,10 +302,10 @@
         <header class="HEADER">
           <img class="LOGO" src="{{ url_for('static', filename='img/LOGO.svg') }}" alt="Logo de Siembra+" />
           <nav class="NAV" role="navigation" aria-label="Navegación principal">
-            <a href="{{ url_for('home') }}" class="title-wrapper"><span class="title">Inicio</span></a>
-            <a href="#" class="title-wrapper"><span class="title">Reporte</span></a>
-            <a href="#" class="title-wrapper"><span class="title">Dispositivo de monitoreo</span></a>
-            <a href="#" class="title-wrapper"><span class="title">Sobre nosotros</span></a>
+            <a href="{{ url_for('inicio.home') }}" class="title-wrapper"><span class="title">Inicio</span></a>
+            <a href="{{ url_for('reporte.reporte') }}" class="title-wrapper"><span class="title">Reporte</span></a>
+            <a href="{{ url_for('disp_monit.disp_monit') }}" class="title-wrapper"><span class="title">Dispositivo de monitoreo</span></a>
+            <a href="{{ url_for('about.about') }}" class="title-wrapper"><span class="title">Sobre nosotros</span></a>
           </nav>
         </header>
       </div>

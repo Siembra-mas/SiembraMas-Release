@@ -4,20 +4,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
     <title>SiembraLink - Recomendaciones Agrícolas</title>
-    <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="disp-monit_style.css" />
+
+    <!-- CSS desde /static -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='globals.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleguide.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='disp-monit_style.css') }}" />
   </head>
   <body>
     <div class="DISPOSITIVO-DE">
       <div class="div">
         <header class="HEADER">
-          <img class="LOGO" src="img/LOGO.svg" alt="Logo de Siembra+" />
+          <img class="LOGO" src="{{ url_for('static', filename='img/LOGO.svg') }}" alt="Logo de Siembra+" />
           <nav class="NAV" role="navigation" aria-label="Navegación principal">
-            <a href="inicio_sm.html" class="title-wrapper"><span class="title">Inicio</span></a>
-            <a href="reporte_sm.html" class="title-wrapper"><span class="title">Reporte</span></a>
-            <a href="disp-monit_sm.html" class="title-wrapper"><span class="title">Dispositivo de monitoreo</span></a>
-            <a href="about_sm.html" class="title-wrapper"><span class="title">Sobre nosotros</span></a>
+            <a href="{{ url_for('inicio.home') }}" class="title-wrapper"><span class="title">Inicio</span></a>
+            <a href="{{ url_for('reporte.reporte') }}" class="title-wrapper"><span class="title">Reporte</span></a>
+            <a href="{{ url_for('disp_monit.disp_monit') }}" class="title-wrapper"><span class="title">Dispositivo de monitoreo</span></a>
+            <a href="{{ url_for('about.about') }}" class="title-wrapper"><span class="title">Sobre nosotros</span></a>
           </nav>
         </header>
 
@@ -25,7 +27,7 @@
           <section class="MARCO-MAIN">
             <div class="MARCO-MAIN-l">
               <div class="TITULO-PINCIPAL">
-                <img class="PERFIL" src="img/ICON-03.svg" alt="Perfil de usuario" />
+                <img class="PERFIL" src="{{ url_for('static', filename='img/ICON-03.svg') }}" alt="Perfil de usuario" />
                 <div class="TEXT">
                   <h1 class="text-wrapper">Recomendaciones SiembraLink</h1>
                   <p class="tu-zona-geogr-fica">Tu zona geográfica<br />18° 51&#39; 33&#34; N 97° 05&#39; 17&#34; O</p>
@@ -38,27 +40,27 @@
                     <select class="text-wrapper-2" aria-label="Seleccionar estado">
                       <option value="">Seleccione un estado</option>
                     </select>
-                    <div class="chevron-down"><img class="icon" src="img/icon-5.svg" alt="" /></div>
+                    <div class="chevron-down"><img class="icon" src="{{ url_for('static', filename='img/icon-5.svg') }}" alt="" /></div>
                   </div>
                   <div class="div-3">
                     <select class="text-wrapper-2" aria-label="Elegir municipio">
                       <option value="">Elegir municipio</option>
                     </select>
-                    <div class="chevron-down"><img class="icon" src="img/icon-3.svg" alt="" /></div>
+                    <div class="chevron-down"><img class="icon" src="{{ url_for('static', filename='img/icon-3.svg') }}" alt="" /></div>
                   </div>
                   <button class="UBICARME" type="button" aria-label="Ubicar mi posición">
-                    <img class="img" src="img/icon-4.svg" alt="" />
+                    <img class="img" src="{{ url_for('static', filename='img/icon-4.svg') }}" alt="" />
                     <span class="text-wrapper-3">Ubicarme</span>
                   </button>
                 </div>
 
                 <div class="div-2">
                   <button class="div-4" type="button" aria-label="Comenzar lectura de datos">
-                    <img class="icon-2" src="img/icon-2.svg" alt="" />
+                    <img class="icon-2" src="{{ url_for('static', filename='img/icon-2.svg') }}" alt="" />
                     <span class="text-wrapper-4">Comenzar lectura</span>
                   </button>
                   <button class="div-4" type="button" aria-label="Programar lectura automática">
-                    <img class="icon-3" src="img/icon.svg" alt="" />
+                    <img class="icon-3" src="{{ url_for('static', filename='img/icon.svg') }}" alt="" />
                     <span class="text-wrapper-4">Programar lectura</span>
                   </button>
                 </div>
@@ -85,7 +87,7 @@
                   <div class="div-5">
                     <div class="clock" aria-label="Indicador de humedad relativa">
                       <div class="div-6">
-                        <div class="overlap"><img class="ICON-HUMED" src="img/ICON_HUMED.svg" alt="" /></div>
+                        <div class="overlap"><img class="ICON-HUMED" src="{{ url_for('static', filename='img/ICON_HUMED.svg') }}" alt="" /></div>
                       </div>
                     </div>
                     <div class="div-7">
@@ -96,7 +98,7 @@
 
                   <div class="div-5">
                     <div class="clock-2" aria-label="Indicador de temperatura máxima">
-                      <img class="ICON-TEMMAX" src="img/ICON_TEMMAX.SVG" alt="" />
+                      <img class="ICON-TEMMAX" src="{{ url_for('static', filename='img/ICON_TEMMAX.svg') }}" alt="" />
                     </div>
                     <div class="div-7">
                       <div class="div-wrapper"><div class="text-wrapper-7">37°C</div></div>
@@ -106,7 +108,7 @@
 
                   <div class="div-5">
                     <div class="capa-wrapper" aria-label="Indicador de viento óptimo">
-                      <img class="ICON-TEMMAX" src="img/ICON_VIENOPT.SVG" alt="" />
+                      <img class="ICON-TEMMAX" src="{{ url_for('static', filename='img/ICON_VIENOPT.svg') }}" alt="" />
                     </div>
                     <div class="div-7">
                       <div class="div-wrapper"><div class="text-wrapper-7">90</div></div>
@@ -120,7 +122,7 @@
                     <div class="clock-2" aria-label="Indicador de precipitación">
                       <div class="ICON-LLUVIA">
                         <div class="overlap-group-3">
-                            <img class="ICON-TEMMAX" src="img/ICON_LLUVIA.svg" alt="" />
+                          <img class="ICON-TEMMAX" src="{{ url_for('static', filename='img/ICON_LLUVIA.svg') }}" alt="" />
                         </div>
                       </div>
                     </div>
@@ -131,7 +133,7 @@
                   </div>
 
                   <div class="div-5">
-                    <img class="clock-2" src="img/ICON_HUMSUEL.svg" alt="Indicador de humedad del suelo" />
+                    <img class="clock-2" src="{{ url_for('static', filename='img/ICON_HUMSUEL.svg') }}" alt="Indicador de humedad del suelo" />
                     <div class="div-7">
                       <div class="div-wrapper"><div class="text-wrapper-7">29%</div></div>
                       <div class="div-wrapper"><div class="text-wrapper-8">Humedad suelo bajo</div></div>
@@ -140,8 +142,8 @@
 
                   <div class="div-5">
                     <div class="capa-wrapper" aria-label="Indicador de huracanes"><div class="capa"></div>
-                      <img class="ICON-TEMMAX" src="img/ICON_HURACANES.SVG" alt="" />
-                  </div>
+                      <img class="ICON-TEMMAX" src="{{ url_for('static', filename='img/ICON_HURACANES.svg') }}" alt="" />
+                    </div>
                     <div class="div-7">
                       <div class="div-wrapper"><div class="text-wrapper-7">0%</div></div>
                       <div class="div-wrapper"><div class="text-wrapper-8">Huracanes</div></div>
@@ -202,7 +204,7 @@
           </section>
 
           <section class="INFO-MID">
-            <img class="ILLU" src="img/ILLU.svg" alt="Ilustración de agricultura inteligente" />
+            <img class="ILLU" src="{{ url_for('static', filename='img/ILLU.svg') }}" alt="Ilustración de agricultura inteligente" />
             <div class="TEXT-2">
               <h2 class="text-wrapper-10">Siembra +</h2>
               <p class="siembra-es-una">
@@ -227,10 +229,10 @@
             <div class="RECOM">
               <details class="div-8" open>
                 <summary class="frame-3">
-                  <img class="mask-group" src="img/mask-group-2.png" alt="Aguacate" />
+                  <img class="mask-group" src="{{ url_for('static', filename='img/mask-group-2.png') }}" alt="Aguacate" />
                   <div class="accordion-title">
                     <h3 class="text-wrapper-11">Aguacate</h3>
-                    <img class="chevron-up" src="img/chevron-up-2.svg" alt="" />
+                    <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up-2.svg') }}" alt="" />
                   </div>
                 </summary>
                 <div class="accordion-content">
@@ -243,40 +245,40 @@
 
               <details class="div-8">
                 <summary class="accordion-title-wrapper">
-                  <img class="mask-group-2" src="img/image.png" alt="Avena grano" />
+                  <img class="mask-group-2" src="{{ url_for('static', filename='img/image.png') }}" alt="Avena grano" />
                   <div class="accordion-title-2">
                     <h3 class="text-wrapper-12">Avena grano</h3>
-                    <img class="chevron-up" src="img/chevron-up.svg" alt="" />
+                    <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up.svg') }}" alt="" />
                   </div>
                 </summary>
               </details>
 
               <details class="div-8">
                 <summary class="accordion-title-wrapper">
-                  <img class="mask-group-2" src="img/mask-group-3.png" alt="Brócoli" />
+                  <img class="mask-group-2" src="{{ url_for('static', filename='img/mask-group-3.png') }}" alt="Brócoli" />
                   <div class="accordion-title-2">
                     <h3 class="text-wrapper-12">Brócoli</h3>
-                    <img class="chevron-up" src="img/chevron-up.svg" alt="" />
+                    <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up.svg') }}" alt="" />
                   </div>
                 </summary>
               </details>
 
               <details class="div-8">
                 <summary class="accordion-title-wrapper">
-                  <img class="mask-group-2" src="img/mask-group.png" alt="Café cereza" />
+                  <img class="mask-group-2" src="{{ url_for('static', filename='img/mask-group.png') }}" alt="Café cereza" />
                   <div class="accordion-title-2">
                     <h3 class="text-wrapper-12">Café cereza</h3>
-                    <img class="chevron-up" src="img/chevron-up.svg" alt="" />
+                    <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up.svg') }}" alt="" />
                   </div>
                 </summary>
               </details>
 
               <details class="div-8">
                 <summary class="accordion-title-wrapper">
-                  <img class="mask-group-2" src="img/mask-group-4.png" alt="Caña de azúcar" />
+                  <img class="mask-group-2" src="{{ url_for('static', filename='img/mask-group-4.png') }}" alt="Caña de azúcar" />
                   <div class="accordion-title-2">
                     <h3 class="text-wrapper-12">Caña de azúcar</h3>
-                    <img class="chevron-up" src="img/chevron-up.svg" alt="" />
+                    <img class="chevron-up" src="{{ url_for('static', filename='img/chevron-up.svg') }}" alt="" />
                   </div>
                 </summary>
               </details>
