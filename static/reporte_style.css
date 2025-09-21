@@ -498,3 +498,45 @@
   background-color: var(--deep-moss-green);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* sombra elegante */
 }
+
+.circle-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--dolphin-gray); /* inactivo */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.circle-input {
+  display: none; /* ocultamos el checkbox */
+}
+
+.circle-btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--alabaster); /* punto interior */
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+/* Activo */
+.circle-input:checked + .circle-btn {
+  background-color: var(--apple); /* interior verde */
+  transform: scale(1.2);
+}
+
+/* Estado hover */
+.circle-toggle:hover {
+  background-color: var(--deep-moss-green); /* anillo */
+  transform: scale(1.05);
+}
+
+/* Accesibilidad: foco */
+.circle-input:focus + .circle-btn {
+  outline: 2px solid var(--apple);
+  outline-offset: 2px;
+}

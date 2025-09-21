@@ -44,29 +44,30 @@
             </article>
 
             <aside class="div-2">
-              <div class="BOTON-OPCIONAL">
-                <div class="TEXT">
-                  <div class="TEXT-HEAD">
-                    <h3 class="resumen-ejecutivo">Gráficas de adecuación climática</h3>
-                    <div class="SIEMBRA-PLUS" aria-label="Siembra Plus"></div>
-                  </div>
-                  <label class="switch" for="switch-graficas">
-                    <input
-                      type="checkbox"
-                      id="switch-graficas"
-                      class="switch-input"
-                      checked
-                      aria-describedby="desc-graficas"
-                    />
-                    <span class="switch-slider" role="presentation">
-                      <img class="knob" src="{{ url_for('static', filename='img/knob-6.svg') }}" alt="" />
-                    </span>
-                  </label>
+
+            <div class="BOTON-OPCIONAL">
+              <div class="TEXT">
+                <div class="TEXT-HEAD">
+                  <h3 class="resumen-ejecutivo">Gráficas de adecuación climática</h3>
+                  <div class="SIEMBRA-PLUS" aria-label="Siembra Plus"></div>
                 </div>
-                <p class="text-wrapper-2" id="desc-graficas">
-                  visualización de temperatura, precipitación y humedad frente a los valores óptimos.
-                </p>
+
+                <!-- Botón circular -->
+                <label class="circle-toggle">
+                  <input
+                    type="checkbox"
+                    id="circle-graficas"
+                    class="circle-input"
+                    checked
+                    aria-describedby="desc-graficas"
+                  />
+                  <span class="circle-btn"></span>
+                </label>
               </div>
+              <p class="text-wrapper-2" id="desc-graficas">
+                Visualización de temperatura, precipitación y humedad frente a los valores óptimos.
+              </p>
+            </div>
 
               <div class="BOTON-OPCIONAL">
                 <div class="TEXT">
@@ -240,5 +241,7 @@
 
       </div>
     </div>
+
+      <script src="{{ url_for('static', filename='js/reporte.js') }}"></script>
   </body>
 </html>
