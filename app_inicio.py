@@ -133,7 +133,7 @@ ANIOS = (datetime.now().year,)
 def mes_actual_nombre() -> str: return MESES[datetime.now().month - 1]
 
 try:
-    CONDICIONES_DF = pd.read_csv("./CondicionesIdeales/CondicionesIdeales.csv", encoding="utf-8")
+    CONDICIONES_DF = pd.read_csv("./condiciones_ideales/CondicionesIdeales.csv", encoding="utf-8")
     CONDICIONES_DF.columns = [col.strip().replace(' ', '_') for col in CONDICIONES_DF.columns]
     CONDICIONES_DF["Cultivo_normalizado"] = CONDICIONES_DF["Cultivo"].apply(normalizar_texto)
 except Exception:
