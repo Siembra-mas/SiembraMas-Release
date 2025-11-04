@@ -5,6 +5,8 @@ from functools import lru_cache
 from typing import Tuple, Optional
 import requests
 from calendar import monthrange
+from flask import jsonify # ¡Importante!
+import os # Para manejar archivos
 
 # ======================== Dependencias del proyecto ==========================
 from prediccion import Prediccion
@@ -12,6 +14,19 @@ from cultivos import obtener_cultivos
 from catalogos import estados, municipios, coordenadas, coordenadas_municipios
 
 bp = Blueprint("inicio", __name__)
+
+#================== IMPORTS DEL AGENTE ==================
+try:
+    # Importamos las DOS funciones clave que reestructuramos
+    from Agente import transcribir_desde_archivo, interpretar_con_gemma
+except ImportError:
+    print("ADVERTENCIA: No se pudo importar Agente.py")
+    # Creamos funciones 'dummy' para que la app no se rompa si falla la import
+    def transcribir_desde_archivo(ruta): return ""
+    def interpretar_con_gemma(texto): return {}
+
+
+
 
 # ================================= Utilidades ================================
 def normalizar_texto(texto: str) -> str:
@@ -208,3 +223,43 @@ def generar():
         "coordenadas": coordenadas, "coordenadas_municipios": coordenadas_municipios
     }
     return render_template("inicio_sm.html", **context)
+
+# ================== NUEVO ENDPOINT DE VOZ ==================
+@bp.route("/procesar-voz", methods=["POST"])
+def procesar_voz_endpoint():
+    # 1. Recibir el archivo de audio del navegador
+    if 'audio_data' not in request.files:
+        return jsonify({"error": "No se encontró archivo de audio"}), 400
+
+    audio_file = request.files['audio_data']
+    
+    # 2. Guardar el archivo temporalmente en el servidor
+    # El navegador envía un blob, lo guardamos con un nombre temporal
+    temp_filename = "temp_audio_upload.webm" 
+    audio_file.save(temp_filename)
+
+    try:
+        # 3. Transcribir el audio usando Agente.py -> Vosk
+        texto_voz = transcribir_desde_archivo(temp_filename)
+        
+        if not texto_voz:
+            return jsonify({"error": "No se pudo transcribir (Vosk)"}), 500
+
+        # 4. Interpretar el texto usando Agente.py -> Gemma
+        params = interpretar_con_gemma(texto_voz)
+
+        if not any(params.values()):
+            return jsonify({"error": "No pude entender la solicitud (Gemma)"}), 400
+        
+        # 5. ¡Éxito! Devolver el JSON al navegador
+        print(f"Parámetros de voz detectados: {params}")
+        return jsonify(params)
+
+    except Exception as e:
+        print(f"Error fatal en /procesar-voz: {e}")
+        return jsonify({"error": str(e)}), 500
+        
+    #finally:
+        # 6. Limpiar siempre el archivo temporal
+       # if os.path.exists(temp_filename):
+           # os.remove(temp_filename)

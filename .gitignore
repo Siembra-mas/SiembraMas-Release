@@ -1,3 +1,31 @@
 __pycache__/
 my_env_pc/
 my_env_lap/
+
+# -----------------------------------------------------------
+# Dependencias de Python (Entornos Virtuales)
+# -----------------------------------------------------------
+.venv/             
+venv/              
+
+# -----------------------------------------------------------
+# Caché de Python
+# -----------------------------------------------------------
+__pycache__/ 
+*.pyc
+*.pyd
+*.pyo
+
+# -----------------------------------------------------------
+# Archivos Temporales y Logs
+# -----------------------------------------------------------
+# Archivos de Audio Temporales del SiembraBot
+temp_audio_upload.webm
+temp_audio_upload.webm_temp.wav
+parametros.json    
+*.log
+*.tmp
+.DS_Store          
+
+# Excluir modelos binarios pesados (Vosk)
+vosk-model-*/
